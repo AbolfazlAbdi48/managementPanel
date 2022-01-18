@@ -28,10 +28,25 @@ class RegisterForm(UserCreationForm):
                    'placeholder': 'نام کاربری'}
         )
     )
+
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={'class': 'form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6',
                    'placeholder': 'ایمیل'}
+        )
+    )
+
+    first_name = forms.CharField(
+        widget=forms.EmailInput(
+            attrs={'class': 'form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6',
+                   'placeholder': 'نام'}
+        )
+    )
+
+    last_name = forms.CharField(
+        widget=forms.EmailInput(
+            attrs={'class': 'form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6',
+                   'placeholder': 'نام خانوادگی'}
         )
     )
 
@@ -51,4 +66,46 @@ class RegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2')
+
+
+class AccountUpdateForm(forms.ModelForm):
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-lg form-control-solid',
+                   'placeholder': 'نام کاربری'}
+        )
+    )
+
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={'class': 'form-control form-control-lg form-control-solid',
+                   'placeholder': 'ایمیل'}
+        ),
+        disabled='disable'
+    )
+
+    first_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-lg form-control-solid',
+                   'placeholder': 'نام'}
+        )
+    )
+
+    last_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'class': 'form-control form-control-lg form-control-solid',
+                   'placeholder': 'نام خانوادگی'}
+        )
+    )
+
+    bio = forms.CharField(
+        widget=forms.Textarea(
+            attrs={'class': 'form-control form-control-lg form-control-solid',
+                   'placeholder': 'بیوگرافی'}
+        )
+    )
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'bio')

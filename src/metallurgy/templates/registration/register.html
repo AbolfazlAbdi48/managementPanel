@@ -57,6 +57,34 @@
 
             <!--begin::Form group-->
             <div class="form-group">
+                {{ form.first_name }}
+
+                {% if form.first_name.errors %}
+                    <div class="fv-plugins-message-container">
+                        <div data-field="username" data-validator="notEmpty" class="fv-help-block">
+                            {{ form.first_name.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <!--end::Form group-->
+
+            <!--begin::Form group-->
+            <div class="form-group">
+                {{ form.last_name }}
+
+                {% if form.last_name.errors %}
+                    <div class="fv-plugins-message-container">
+                        <div data-field="username" data-validator="notEmpty" class="fv-help-block">
+                            {{ form.last_name.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <!--end::Form group-->
+
+            <!--begin::Form group-->
+            <div class="form-group">
                 {{ form.email }}
 
                 {% if form.email.errors %}

@@ -1,0 +1,31 @@
+{% extends 'base/_Base.html' %}
+{% load static %}
+
+{% block title %}
+    برند | پروفایل
+{% endblock %}
+
+{% block content %}
+    <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
+
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class=" container ">
+                <!--begin::پروفایل بررسی-->
+                <div class="d-flex flex-row">
+                    <!--begin::Aside-->
+                        {% include 'registration/profile/profile_aside_component.html' %}
+                    <!--end::Aside-->
+
+                    <!--begin::Content-->
+
+                    <!--end::Content-->
+                </div>
+                <!--end::پروفایل بررسی-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+{% endblock %}

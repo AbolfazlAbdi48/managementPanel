@@ -4,7 +4,6 @@
     <div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
         <h3 class="font-weight-bold m-0">
             پروفایل کاربر
-            <small class="text-muted font-size-sm ml-2">12 پیام</small>
         </h3>
         <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_user_close">
             <i class="ki ki-close icon-xs text-muted"></i>
@@ -21,14 +20,14 @@
                 <i class="symbol-badge bg-success"></i>
             </div>
             <div class="d-flex flex-column">
-                <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
-                    محسن برومند
+                <a class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
+                    {{ request.user.username }}
                 </a>
                 <div class="text-muted mt-1">
-                    توسعه اپلیکیشن
+                    {{ request.user.get_full_name }}
                 </div>
                 <div class="navi mt-2">
-                    <a href="#" class="navi-item">
+                    <a href="mailto:{{ request.user.email }}" class="navi-item">
                         <span class="navi-link p-0 pb-2">
                             <span class="navi-icon mr-1">
 								<span class="svg-icon svg-icon-lg svg-icon-primary"><!--begin::Svg Icon | path:assets/media/svg/icons/ارتباطات/Mail-notification.svg--><svg
@@ -41,11 +40,11 @@
         <circle fill="#000000" opacity="0.3" cx="19.5" cy="17.5" r="2.5"/>
     </g>
 </svg><!--end::Svg Icon--></span>							</span>
-                            <span class="navi-text text-muted text-hover-primary">jm@softplus.com</span>
+                            <span class="navi-text text-muted text-hover-primary">{{ request.user.email }}</span>
                         </span>
                     </a>
 
-                    <a href="#" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">خروج</a>
+                    <a href="{% url 'users:logout' %}" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">خروج</a>
                 </div>
             </div>
         </div>
