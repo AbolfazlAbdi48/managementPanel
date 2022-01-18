@@ -1,0 +1,82 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}
+    ورود به حساب
+{% endblock %}
+
+{% block content %}
+    <div class="login-form login-signin py-11">
+        <!--begin::Form-->
+        <form class="form" novalidate="novalidate" method="post" id="kt_login_signin_form">
+            {% csrf_token %}
+            <!--begin::Title-->
+            <div class="text-center pb-8">
+                <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">ورود</h2>
+                <span class="text-muted font-weight-bold font-size-h4">یا<a href=""
+                                                                            class="text-primary font-weight-bolder"
+                                                                            id="kt_login_signup"> ساخت حساب کاربری</a></span>
+            </div>
+            <!--end::Title-->
+
+            <!--begin::Form group-->
+            <div class="form-group">
+                <label class="font-size-h6 font-weight-bolder text-dark" id="{{ form.username.id_for_label }}">
+                    {{ form.username.label }}
+                </label>
+                {{ form.username }}
+            </div>
+            <!--end::Form group-->
+
+            <!--begin::Form group-->
+            <div class="form-group">
+                <div class="d-flex justify-content-between mt-n5">
+                    <label class="font-size-h6 font-weight-bolder text-dark pt-5">
+                        کلمه عبور
+                    </label>
+
+                    <a href=""
+                       class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5"
+                       id="kt_login_forgot">
+                        رمز عبور خود را فراموش کردید؟
+                    </a>
+                </div>
+
+                {{ form.password }}
+
+                {% if form.non_field_errors %}
+                    <div class="fv-plugins-message-container">
+                        <div data-field="password" data-validator="notEmpty" class="fv-help-block">
+                            {{ form.non_field_errors.as_text }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if form.password.errors %}
+                    <div class="fv-plugins-message-container">
+                        <div data-field="password" data-validator="notEmpty" class="fv-help-block">
+                            {{ form.password.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if form.username.errors %}
+                    <div class="fv-plugins-message-container">
+                        <div data-field="password" data-validator="notEmpty" class="fv-help-block">
+                            {{ form.username.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <!--end::Form group-->
+
+            <!--begin::اکشن-->
+            <div class="text-center pt-2">
+                <button id="kt_login_signin_submit"
+                        class="btn btn-dark font-weight-bolder font-size-h6 px-8 py-4 my-3">ورود
+                </button>
+            </div>
+            <!--end::اکشن-->
+        </form>
+        <!--end::Form-->
+    </div>
+{% endblock %}

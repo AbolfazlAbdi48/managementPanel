@@ -18,8 +18,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from metallurgy.apps.users.views import Login
+
 urlpatterns = [
     path('account/', include('metallurgy.apps.users.urls')),
+    path('account/login/', Login.as_view(), name='login'),
     path('admin/', admin.site.urls),
 ]
 
