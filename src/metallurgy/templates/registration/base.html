@@ -57,9 +57,15 @@
 
                 <!--begin::Aside body-->
                 <div class="d-flex flex-column-fluid flex-column flex-center">
-                    <!--begin::Signin-->
-                    {% block content %}{% endblock %}
-                    <!--end::Signin-->
+
+                    <div class="login-form login-signin py-11">
+                        {% block login_content %}{% endblock %}
+                    </div>
+
+                    <div class="login-form login-signup pt-11">
+                        {% block register_content %}{% endblock %}
+                    </div>
+
                 </div>
                 <!--end::Aside body-->
 

@@ -4,7 +4,7 @@
     ورود به حساب
 {% endblock %}
 
-{% block content %}
+{% block login_content %}
     <div class="login-form login-signin py-11">
         <!--begin::Form-->
         <form class="form" novalidate="novalidate" method="post" id="kt_login_signin_form">
@@ -12,7 +12,7 @@
             <!--begin::Title-->
             <div class="text-center pb-8">
                 <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">ورود</h2>
-                <span class="text-muted font-weight-bold font-size-h4">یا<a href=""
+                <span class="text-muted font-weight-bold font-size-h4">یا<a href="{% url 'users:register' %}"
                                                                             class="text-primary font-weight-bolder"
                                                                             id="kt_login_signup"> ساخت حساب کاربری</a></span>
             </div>

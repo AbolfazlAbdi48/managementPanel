@@ -1,0 +1,129 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}
+    درخواست برای ساخت حساب
+{% endblock %}
+
+{% block login_content %}
+    <form class="form" novalidate="novalidate" method="post" id="kt_login_signin_form">
+        {% csrf_token %}
+        <!--begin::Title-->
+        {% if form.non_field_errors or form.username.errors or form.email.errors or form.password1.errors or form.password2.errors %}
+            <div class="text-center pb-8">
+                <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">ثبت نام</h2>
+                <span class="text-danger font-weight-bold font-size-h4">لطفا ارور ها رار بخوانید و با دقت اطلاعات را وارد کنید<a
+                        style="cursor: pointer"
+                        class="text-primary font-weight-bolder"
+                        id="kt_login_signup"> کلیک کنید</a></span>
+            </div>
+        {% else %}
+            <div class="text-center pb-8">
+                <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">ثبت نام</h2>
+                <span class="text-muted font-weight-bold font-size-h4">برای ایجاد درخواست ساخت حساب کاربری<a
+                        style="cursor: pointer"
+                        class="text-primary font-weight-bolder"
+                        id="kt_login_signup"> کلیک کنید</a></span>
+            </div>
+        {% endif %}
+    </form>
+{% endblock %}
+
+{% block register_content %}
+
+    <div class="login-form login-signup pt-11">
+        <!--begin::Form-->
+        <form class="form" novalidate="novalidate" id="kt_login_signup_form" method="post">
+            {% csrf_token %}
+            <!--begin::Title-->
+            <div class="text-center pb-8">
+                <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">ثبت نام</h2>
+                <p class="text-muted font-weight-bold font-size-h4">برای ایجاد حساب کاربری ، جزئیات خود را وارد کنید</p>
+            </div>
+            <!--end::Title-->
+
+            <!--begin::Form group-->
+            <div class="form-group">
+                {{ form.username }}
+
+                {% if form.username.errors %}
+                    <div class="fv-plugins-message-container">
+                        <div data-field="username" data-validator="notEmpty" class="fv-help-block">
+                            {{ form.username.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <!--end::Form group-->
+
+            <!--begin::Form group-->
+            <div class="form-group">
+                {{ form.email }}
+
+                {% if form.email.errors %}
+                    <div class="fv-plugins-message-container">
+                        <div data-field="email" data-validator="notEmpty" class="fv-help-block">
+                            {{ form.email.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <!--end::Form group-->
+
+            <!--begin::Form group-->
+            <div class="form-group">
+                {{ form.password1 }}
+
+                {% if form.password1.errors %}
+                    <div class="fv-plugins-message-container">
+                        <div data-field="password1" data-validator="notEmpty" class="fv-help-block">
+                            {{ form.password1.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <!--end::Form group-->
+
+            <!--begin::Form group-->
+            <div class="form-group">
+                {{ form.password2 }}
+
+                {% if form.password2.errors %}
+                    <div class="fv-plugins-message-container">
+                        <div data-field="password2" data-validator="notEmpty" class="fv-help-block">
+                            {{ form.password2.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <!--end::Form group-->
+
+            <!--begin::Form group-->
+            <div class="form-group">
+                <label class="checkbox mb-0">
+                    <input type="checkbox" name="agree"/>می پذیرم <a href="#">قوانین و مقررات</a>.
+                    <span></span>
+                    {% if form.non_field_errors %}
+                        <div class="fv-plugins-message-container">
+                            <div data-field="agree" data-validator="notEmpty" class="fv-help-block">
+                                {{ form.non_field_errors }}
+                            </div>
+                        </div>
+                    {% endif %}
+                </label>
+            </div>
+            <!--end::Form group-->
+
+            <!--begin::Form group-->
+            <div class="form-group d-flex flex-wrap flex-center pb-lg-0 pb-3">
+                <button type="button" id="kt_login_signup_submit"
+                        class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4">ارسال
+                </button>
+                <button type="button" id="kt_login_signup_cancel"
+                        class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4">لغو
+                </button>
+            </div>
+            <!--end::Form group-->
+        </form>
+        <!--end::Form-->
+    </div>
+{% endblock %}
