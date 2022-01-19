@@ -28,9 +28,9 @@
                                 </a>
                             </li>
                             <li class="navi-item">
-                                <a href="#" class="navi-link">
+                                <a href="{% url 'users:password-change' %}" class="navi-link">
                                     <span class="navi-icon"><i class="flaticon2-gear"></i></span>
-                                    <span class="navi-text">تغییر کلمه عبور</span>
+                                    <span class="navi-text">تغییر رمز عبور</span>
                                 </a>
                             </li>
 
@@ -53,7 +53,7 @@
             <div class="d-flex align-items-center">
                 <div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
                     <div class="symbol-label"
-                         style="background-image:url({% static 'media/users/300_21.jpg' %})"></div>
+                         style="background-image:url({% static 'media/users/default.jpg' %})"></div>
                     <i class="symbol-badge bg-success"></i>
                 </div>
                 <div>
@@ -83,22 +83,22 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <span class="font-weight-bold mr-2">تلفن:</span>
                         <span class="text-muted">
-                                            {% if request.user.employee %}
-                                                {{ request.user.employee.phone_number }}
-                                            {% elif request.user.customer %}
-                                                {{ request.user.customer.phone_number }}
-                                            {% endif %}
-                                        </span>
+                            {% if request.user.employee %}
+                                {{ request.user.employee.phone_number }}
+                            {% elif request.user.customer %}
+                                {{ request.user.customer.phone_number }}
+                            {% endif %}
+                        </span>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <span class="font-weight-bold mr-2">وضعیت:</span>
                         <span class="text-muted">
-                                                {% if request.user.employee %}
-                                                    کارمند
-                                                {% elif request.user.customer %}
-                                                    مشتری
-                                                {% endif %}
-                                            </span>
+                            {% if request.user.employee %}
+                                کارمند
+                            {% elif request.user.customer %}
+                                مشتری
+                            {% endif %}
+                        </span>
                     </div>
                 {% endif %}
                 <div class="d-flex align-items-center justify-content-between mb-2">
@@ -152,8 +152,8 @@
                         </a>
                     </div>
                     <div class="navi-item mb-2">
-                        <a href="custom/apps/profile/profile-1/account-information.html"
-                           class="navi-link py-4 ">
+                        <a href="{% url 'users:password-change' %}"
+                           class="navi-link py-4 {% if url_name == 'password-change' %}active{% endif %}">
                     <span class="navi-icon mr-2">
                         <span class="svg-icon"><!--begin::Svg Icon | path:assets/media/svg/icons/کد/Compiling.svg--><svg
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -167,7 +167,7 @@
     </g>
 </svg><!--end::Svg Icon--></span>                    </span>
                             <span class="navi-text font-size-lg">
-                        تغییر کلمه عبور
+                        تغییر رمز عبور
                     </span>
                         </a>
                     </div>

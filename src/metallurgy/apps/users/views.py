@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from .models import User
@@ -10,7 +11,8 @@ from .mixins import AuthenticatedMixin
 from .forms import (
     UserLoginForm,
     RegisterForm,
-    AccountUpdateForm
+    AccountUpdateForm,
+    AccountPasswordChangeForm
 )
 
 
@@ -34,7 +36,7 @@ class RegisterView(AuthenticatedMixin, CreateView):
     template_name = 'registration/register.html'
 
 
-class AccountUpdateView(UpdateView):
+class AccountUpdateView(LoginRequiredMixin, UpdateView):
     def get_object(self, queryset=None):
         request = self.request
         return User.objects.get(pk=request.user.pk)
@@ -42,3 +44,9 @@ class AccountUpdateView(UpdateView):
     template_name = 'registration/profile/profile_update.html'
     success_url = reverse_lazy('users:home')
     form_class = AccountUpdateForm
+
+
+class AccountPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    success_url = reverse_lazy('users:home')
+    template_name = 'registration/profile/profile_change_password.html'
+    form_class = AccountPasswordChangeForm

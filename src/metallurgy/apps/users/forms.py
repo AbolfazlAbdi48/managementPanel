@@ -1,4 +1,10 @@
-from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserCreationForm
+from django.contrib.auth import password_validation
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    UsernameField,
+    UserCreationForm,
+    PasswordChangeForm
+)
 from django import forms
 from .models import User
 
@@ -70,7 +76,7 @@ class RegisterForm(UserCreationForm):
 
 
 class AccountUpdateForm(forms.ModelForm):
-    username = forms.CharField(
+    username = UsernameField(
         widget=forms.TextInput(
             attrs={'class': 'form-control form-control-lg form-control-solid',
                    'placeholder': 'نام کاربری'}
@@ -109,3 +115,32 @@ class AccountUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'bio')
+
+
+class AccountPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'autocomplete': 'current-password', 'class': 'form-control form-control-lg form-control-solid mb-2'
+            }
+        ),
+    )
+
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'autocomplete': 'new-password',
+                'class': 'form-control form-control-lg form-control-solid mb-2'
+            }
+        ),
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'autocomplete': 'new-password',
+                'class': 'form-control form-control-lg form-control-solid mb-2'
+            }
+        ),
+    )
