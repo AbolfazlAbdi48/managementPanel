@@ -2,24 +2,15 @@ import os
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
-
-
-def get_filename_ext(filepath):
-    base_name = os.path.basename(filepath)
-    name, ext = os.path.splitext(base_name)
-    return name, ext
-
-
-def upload_image_path(instance, filename):
-    name, ext = get_filename_ext(filename)
-    now_time = timezone.now()
-    final_name = f"{instance.id}_{instance.username}_{now_time}{ext}"
-    return f"users/profile_images/{final_name}"
+from metallurgy.apps.utils.jalali_date import jalali_converter
 
 
 # Create your models here.
 class User(AbstractUser):
     bio = models.TextField(verbose_name='بیوگرافی')
+
+    def get_last_login_jalali(self):
+        return jalali_converter(self.last_login)
 
 
 class Employee(models.Model):

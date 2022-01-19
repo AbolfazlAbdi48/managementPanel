@@ -1,12 +1,15 @@
+from django.core import serializers
 from django.shortcuts import render
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView
 from .models import User
 
 from .mixins import AuthenticatedMixin
+from metallurgy.apps.core.mixins import IsSuperUserMixin
 
 from .forms import (
     UserLoginForm,
@@ -50,3 +53,15 @@ class AccountPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     success_url = reverse_lazy('users:home')
     template_name = 'registration/profile/profile_change_password.html'
     form_class = AccountPasswordChangeForm
+
+
+class UserListView(IsSuperUserMixin, ListView):
+    model = User
+    template_name = 'users/users_list.html'
+    paginate_by = 10
+
+
+def user_list_json_view(request):
+    users = User.objects.all()
+    users_json = serializers.serialize('json', users)
+    return HttpResponse(users_json, content_type='application/json')

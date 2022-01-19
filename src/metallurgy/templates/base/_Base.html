@@ -71,14 +71,9 @@
                 {% include 'base/components/subheader_component.html' %}
 
                 <!--begin::Entry-->
-                <div class="d-flex flex-column-fluid">
-                    <!--begin::Container-->
-                    <div class=" container ">
-                        {% block content %}
-                        {% endblock %}
-                    </div>
-                    <!--end::Container-->
-                </div>
+                {% block content %}
+
+                {% endblock %}
                 <!--end::Entry-->
             </div>
             <!--end::Content-->

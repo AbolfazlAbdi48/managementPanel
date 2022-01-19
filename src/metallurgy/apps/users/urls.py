@@ -4,7 +4,9 @@ from .views import (
     account_view,
     RegisterView,
     AccountUpdateView,
-    AccountPasswordChangeView
+    AccountPasswordChangeView,
+    UserListView,
+    user_list_json_view
 )
 
 app_name = 'users'
@@ -14,4 +16,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('update/', AccountUpdateView.as_view(), name='update'),
     path('password-change/', AccountPasswordChangeView.as_view(), name='password-change'),
+
+    path('users/', UserListView.as_view(), name='users-list'),
+    path('users2/', user_list_json_view, name='users-list2'),
 ]

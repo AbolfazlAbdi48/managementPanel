@@ -114,17 +114,3 @@
         <!--end::Toolbar-->
     </div>
 </div>
-
-{% block new_js_code %}
-    <script>
-        const dashboard_date = document.getElementById('kt_dashboard_daterangepicker_date')
-        fetch('http://api.codebazan.ir/time-date/?td=date', {
-            headers: {
-                'Access-Control-Request-Method': 'GET'
-            }
-        })
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .then(err => console.log(err))
-    </script>
-{% endblock %}
