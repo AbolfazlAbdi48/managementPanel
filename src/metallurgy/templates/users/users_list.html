@@ -39,7 +39,7 @@
                                                 </li>
                                                 <li class="navi-separator mb-3 opacity-70"></li>
                                                 <li class="navi-item">
-                                                    <a href="#" class="navi-link">
+                                                    <a href="{% url 'users:users-detail' user.pk user.username %}" class="navi-link">
             <span class="navi-text">
                 <span class="label label-xl label-inline label-light-success">مشاهده</span>
             </span>
@@ -100,7 +100,7 @@
                                     <!--end::Pic-->
                                     <!--begin::Title-->
                                     <div class="d-flex flex-column">
-                                        <a href="#"
+                                        <a href="{% url 'users:users-detail' user.pk user.username %}"
                                            class="text-dark font-weight-bold text-hover-primary font-size-h4 mb-0">{{ user.username }}</a>
                                         <span class="text-muted font-weight-bold">{{ user.get_full_name }}</span>
                                     </div>
@@ -145,7 +145,7 @@
                                     </div>
                                 </div>
                                 <!--end::اطلاعات -->
-                                <a href="#"
+                                <a href="{% url 'users:users-detail' user.pk user.username %}"
                                    class="btn btn-block btn-sm btn-light-primary font-weight-bolder text-uppercase py-4">
                                     مشاهده</a>
                             </div>

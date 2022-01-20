@@ -79,16 +79,15 @@
                     <a href="mailto:{{ request.user.email }}"
                        class="text-muted text-hover-primary">{{ request.user.email }}</a>
                 </div>
-                {% if not request.user.is_superuser or not request.user.is_staff %}
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="font-weight-bold mr-2">تلفن:</span>
-                        <span class="text-muted">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="font-weight-bold mr-2">تلفن:</span>
+                    <a href="tel:{{ request.user.phone_number }}" class="text-muted text-hover-primary">
                             {{ request.user.phone_number }}
-                        </span>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="font-weight-bold mr-2">وضعیت:</span>
-                        <span class="text-muted">
+                        </a>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="font-weight-bold mr-2">وضعیت:</span>
+                    <span class="text-muted">
                             {% if request.user.employee %}
                                 کارمند
                             {% elif request.user.customer %}
@@ -99,8 +98,7 @@
                                 ارشد
                             {% endif %}
                         </span>
-                    </div>
-                {% endif %}
+                </div>
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <span class="font-weight-bold mr-2">بیوگرافی:</span>
                     <span class="text-muted">{{ request.user.bio }}</span>

@@ -1,11 +1,9 @@
-from django.core import serializers
 from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, UpdateView, ListView, DetailView
 from .models import User, Customer, Employee
 
 from .mixins import AuthenticatedMixin
@@ -123,3 +121,8 @@ def user_create_view(request):
         'form': create_form
     }
     return render(request, 'users/users_create_update.html', context)
+
+
+class UserDetailView(IsSuperUserMixin, DetailView):
+    model = User
+    template_name = 'users/users_detail.html'
