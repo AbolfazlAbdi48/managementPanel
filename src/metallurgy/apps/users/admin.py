@@ -4,7 +4,7 @@ from .models import User, Employee, Customer
 
 # Register your models here.
 UserAdmin.fieldsets[1][1]['fields'] = (
-    'first_name', 'last_name', 'email', 'bio'
+    'first_name', 'last_name', 'email', 'phone_number', 'bio'
 )
 
 admin.site.register(User, UserAdmin)

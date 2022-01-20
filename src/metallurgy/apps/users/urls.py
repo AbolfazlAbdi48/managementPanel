@@ -6,7 +6,7 @@ from .views import (
     AccountUpdateView,
     AccountPasswordChangeView,
     UserListView,
-    user_list_json_view
+    user_create_view
 )
 
 app_name = 'users'
@@ -18,5 +18,5 @@ urlpatterns = [
     path('password-change/', AccountPasswordChangeView.as_view(), name='password-change'),
 
     path('users/', UserListView.as_view(), name='users-list'),
-    path('users2/', user_list_json_view, name='users-list2'),
+    path('users/create/', user_create_view, name='users-create'),
 ]

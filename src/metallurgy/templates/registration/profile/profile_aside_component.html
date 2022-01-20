@@ -83,11 +83,7 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <span class="font-weight-bold mr-2">تلفن:</span>
                         <span class="text-muted">
-                            {% if request.user.employee %}
-                                {{ request.user.employee.phone_number }}
-                            {% elif request.user.customer %}
-                                {{ request.user.customer.phone_number }}
-                            {% endif %}
+                            {{ request.user.phone_number }}
                         </span>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-2">
@@ -96,7 +92,11 @@
                             {% if request.user.employee %}
                                 کارمند
                             {% elif request.user.customer %}
-                                مشتری
+                                کارفرما
+                            {% elif request.user.is_superuser %}
+                                ابر کاربر
+                            {% elif request.user.is_staff %}
+                                ارشد
                             {% endif %}
                         </span>
                     </div>

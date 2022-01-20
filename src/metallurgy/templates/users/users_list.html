@@ -120,21 +120,15 @@
                                            class="text-muted text-hover-primary">{{ user.email }}</a>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center my-2">
-                                        <span class="text-dark-75 font-weight-bolder mr-2">آخرین فعالیت :</span>
+                                        <span class="text-dark-75 font-weight-bolder mr-2">آخرین ورود :</span>
                                         <span class="text-muted">
                                             {{ user.last_login|naturaltime }}
                                         </span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-cente my-2">
-                                        <span class="text-dark-75 font-weight-bolder mr-2">تلفن:</span>
+                                        <span class="text-dark-75 font-weight-bolder mr-2">شماره تلفن:</span>
                                         <a class="text-muted">
-                                            {% if user.employee %}
-                                                {{ user.employee.phone_number }}
-                                            {% elif user.customer %}
-                                                {{ user.customer.phone_number }}
-                                            {% elif user.is_superuser or user.is_staff %}
-                                                نیازی نیست
-                                            {% endif %}
+                                            {{ user.phone_number }}
                                         </a>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
@@ -144,7 +138,7 @@
                                         {% elif user.is_staff %}
                                             <span class="text-warning font-weight-bold">ارشد</span>
                                         {% elif user.customer %}
-                                            <span class="text-success font-weight-bold">مشتری</span>
+                                            <span class="text-success font-weight-bold">کارفرما</span>
                                         {% else %}
                                             <span class="text-info font-weight-bold">کارمند</span>
                                         {% endif %}

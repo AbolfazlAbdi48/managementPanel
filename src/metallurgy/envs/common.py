@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os.path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -135,3 +135,8 @@ MEDIA_ROOT = '/src/media'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SMS_SETTINGS = {
+    "API_KEY": "df4a5451f02b56570aaec1615c3c2aac239668cceb549fec1c044560563303df",
+    "ADMIN_PHONE_NUMBER": "09030542101",
+}

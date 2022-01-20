@@ -1,13 +1,17 @@
 import os
+import uuid
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from metallurgy.apps.utils.jalali_date import jalali_converter
+from metallurgy.apps.utils.character_generator import random_character_generator
 
 
 # Create your models here.
 class User(AbstractUser):
     bio = models.TextField(verbose_name='بیوگرافی')
+    phone_number = models.CharField(max_length=13, null=True, blank=True, verbose_name='شماره تلفن')
 
     def get_last_login_jalali(self):
         return jalali_converter(self.last_login)
@@ -15,7 +19,6 @@ class User(AbstractUser):
 
 class Employee(models.Model):
     account = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='اکانت کارمند')
-    phone_number = models.CharField(max_length=11, verbose_name='شماره تلفن کارمند')
     is_delete = models.BooleanField(default=False, verbose_name='حذف شده / نشده')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -30,7 +33,6 @@ class Employee(models.Model):
 
 class Customer(models.Model):
     account = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='اکانت مشتری')
-    phone_number = models.CharField(max_length=11, verbose_name='شماره تلفن مشتری')
     is_delete = models.BooleanField(default=False, verbose_name='حذف شده / نشده')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
