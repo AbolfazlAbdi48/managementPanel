@@ -7,7 +7,8 @@ from .views import (
     AccountPasswordChangeView,
     UserListView,
     user_create_view,
-    UserDetailView
+    UserDetailView,
+    user_update_view
 )
 
 app_name = 'users'
@@ -21,4 +22,5 @@ urlpatterns = [
     path('users/', UserListView.as_view(), name='users-list'),
     path('users/create/', user_create_view, name='users-create'),
     path('users/<pk>/<username>', UserDetailView.as_view(), name='users-detail'),
+    path('users/update/<pk>/<username>', user_update_view, name='users-update'),
 ]

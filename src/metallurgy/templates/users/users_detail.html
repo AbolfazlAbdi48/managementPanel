@@ -30,7 +30,7 @@
                                         <!--begin::Navigation-->
                                         <ul class="navi navi-hover py-5">
                                             <li class="navi-item">
-                                                <a href="#" class="navi-link">
+                                                <a href="{% url 'users:users-update' user.pk user.username %}" class="navi-link">
                                                     <span class="navi-icon"><i class="flaticon2-drop"></i></span>
                                                     <span class="navi-text">ویرایش</span>
                                                 </a>
@@ -73,7 +73,7 @@
                                         {{ object.get_full_name }}
                                     </div>
                                     <div class="mt-2">
-                                        <a href="#"
+                                        <a href="{% url 'users:users-update' user.pk user.username %}"
                                            class="btn btn-sm btn-light-warning font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1">ویرایش</a>
                                         <a href="#"
                                            class="btn btn-sm btn-light-danger font-weight-bold py-2 px-3 px-xxl-5 my-1">حذف</a>

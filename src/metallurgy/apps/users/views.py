@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView
@@ -16,7 +16,8 @@ from .forms import (
     RegisterForm,
     AccountUpdateForm,
     AccountPasswordChangeForm,
-    UserCreateForm
+    UserCreateForm,
+    UserUpdateForm
 )
 from ...envs.common import SMS_SETTINGS
 
@@ -97,13 +98,14 @@ def user_create_view(request):
             )
             user.set_password(password)
 
-            if status == "staff":
-                user.is_staff = True
-                user.save()
-            elif status == "customer":
-                Customer.objects.create(account=user)
-            elif status == "employee":
-                Employee.objects.create(account=user)
+            match status:
+                case "staff":
+                    user.is_staff = True
+                    user.save()
+                case "customer":
+                    Customer.objects.create(account=user)
+                case "employee":
+                    Employee.objects.create(account=user)
 
             send_single_sms(
                 message="کاربر جدید ایجاد شد \n"
@@ -119,6 +121,62 @@ def user_create_view(request):
     context = {
         'default_password': password,
         'form': create_form
+    }
+    return render(request, 'users/users_create_update.html', context)
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def user_update_view(request, pk, username):
+    user = get_object_or_404(User, pk=pk, username=username)
+    user_status = 'superuser'
+
+    match user:
+        case user.is_staff:
+            user_status = 'staff'
+        case bool(user.employee):
+            user_status = 'employee'
+        case bool(user.customer):
+            user_status = 'customer'
+
+    update_form = UserUpdateForm(
+        data=request.POST or None,
+        initial={
+            'username': user.username,
+            'email': user.email,
+            'phone_number': user.phone_number,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'bio': user.bio
+        }
+    )
+
+    if request.method == "POST":
+        if update_form.is_valid():
+            user.username = update_form.cleaned_data.get('username')
+            user.email = update_form.cleaned_data.get('email')
+            user.first_name = update_form.cleaned_data.get('first_name')
+            user.last_name = update_form.cleaned_data.get('last_name')
+            user.bio = update_form.cleaned_data.get('bio')
+            user.phone_number = update_form.cleaned_data.get('phone_number')
+            status = update_form.cleaned_data.get('status')
+
+            if user_status != status:
+                match status:
+                    case "staff":
+                        user.is_staff = True
+                        user.save()
+                    case "customer":
+                        Employee.objects.get(account=user).delete()
+                        Customer.objects.create(account=user)
+                    case "employee":
+                        Customer.objects.get(account=user).delete()
+                        Employee.objects.create(account=user)
+
+            return redirect('users:users-list')
+
+    context = {
+        'form': update_form,
+        'user': user
     }
     return render(request, 'users/users_create_update.html', context)
 

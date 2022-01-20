@@ -146,7 +146,7 @@ class AccountPasswordChangeForm(PasswordChangeForm):
     )
 
 
-class UserCreateForm(forms.Form):
+class UserUpdateForm(forms.Form):
     STATUS_CHOICES = (
         ('staff', 'ارشد'),
         ('employee', 'کارمند'),
@@ -216,6 +216,8 @@ class UserCreateForm(forms.Form):
         )
     )
 
+
+class UserCreateForm(UserUpdateForm):
     def clean_username(self):
         username = self.cleaned_data.get('username')
         is_exist = User.objects.filter(username=username).exists()
