@@ -1,9 +1,11 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
+from django.views.decorators.csrf import csrf_protect
 from .models import User, Customer, Employee
 
 from .mixins import AuthenticatedMixin
@@ -61,8 +63,16 @@ class AccountPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 
 
 class UserListView(IsSuperUserMixin, ListView):
-    model = User
-    ordering = ['-id']
+    def get_queryset(self):
+        return User.objects.filter(is_active=True).order_by('-id')
+
+    template_name = 'users/users_list.html'
+    paginate_by = 12
+
+class DeactivateUserListView(IsSuperUserMixin, ListView):
+    def get_queryset(self):
+        return User.objects.filter(is_active=False).order_by('-id')
+
     template_name = 'users/users_list.html'
     paginate_by = 12
 
@@ -166,10 +176,18 @@ def user_update_view(request, pk, username):
                         user.is_staff = True
                         user.save()
                     case "customer":
-                        Employee.objects.get(account=user).delete()
+                        if bool(user.employee):
+                            Employee.objects.get(account=user).delete()
+                        elif user.is_staff:
+                            user.is_staff = False
+                            user.save()
                         Customer.objects.create(account=user)
                     case "employee":
-                        Customer.objects.get(account=user).delete()
+                        if bool(user.customer):
+                            Customer.objects.get(account=user).delete()
+                        elif user.is_staff:
+                            user.is_staff = False
+                            user.save()
                         Employee.objects.create(account=user)
 
             return redirect('users:users-list')
@@ -184,3 +202,16 @@ def user_update_view(request, pk, username):
 class UserDetailView(IsSuperUserMixin, DetailView):
     model = User
     template_name = 'users/users_detail.html'
+
+
+@user_passes_test(lambda u: u.is_superuser)
+@csrf_protect
+def users_deactivate_view(request):
+    user_pk = request.GET.get('pk')
+    user = User.objects.filter(pk=user_pk).first()
+    if user:
+        user.is_active = False
+        user.save()
+        return JsonResponse(status=204, data={'message': 'deleted'})
+    else:
+        return JsonResponse(status=404, data={'message': 'user not found'})

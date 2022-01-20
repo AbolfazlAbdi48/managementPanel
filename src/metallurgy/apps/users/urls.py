@@ -6,9 +6,11 @@ from .views import (
     AccountUpdateView,
     AccountPasswordChangeView,
     UserListView,
+    DeactivateUserListView,
     user_create_view,
     UserDetailView,
-    user_update_view
+    user_update_view,
+    users_deactivate_view
 )
 
 app_name = 'users'
@@ -20,7 +22,9 @@ urlpatterns = [
     path('password-change/', AccountPasswordChangeView.as_view(), name='password-change'),
 
     path('users/', UserListView.as_view(), name='users-list'),
+    path('users/deactivated/', DeactivateUserListView.as_view(), name='users-deactivate-list'),
     path('users/create/', user_create_view, name='users-create'),
     path('users/<pk>/<username>', UserDetailView.as_view(), name='users-detail'),
     path('users/update/<pk>/<username>', user_update_view, name='users-update'),
+    path('users/deactivate/', users_deactivate_view, name='users-deactivate'),
 ]

@@ -35,12 +35,6 @@
                                                     <span class="navi-text">ویرایش</span>
                                                 </a>
                                             </li>
-                                            <li class="navi-item">
-                                                <a href="#" class="navi-link">
-                                                    <span class="navi-icon"><i class="flaticon2-list-3"></i></span>
-                                                    <span class="navi-text">حذف</span>
-                                                </a>
-                                            </li>
 
                                             <li class="navi-separator my-3"></li>
 
@@ -75,7 +69,7 @@
                                     <div class="mt-2">
                                         <a href="{% url 'users:users-update' user.pk user.username %}"
                                            class="btn btn-sm btn-light-warning font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1">ویرایش</a>
-                                        <a href="#"
+                                        <a href="javascript:void(0)" id="deactivate_user"
                                            class="btn btn-sm btn-light-danger font-weight-bold py-2 px-3 px-xxl-5 my-1">حذف</a>
                                     </div>
                                 </div>
@@ -135,4 +129,36 @@
         </div>
         <!--end::Container-->
     </div>
+{% endblock %}
+{% block new_js_code %}
+    <script src="{% static 'js/pages/features/miscellaneous/sweetalert2.js' %}"></script>
+    <script>
+        const deactivate_user = (id) => {
+            fetch(`/account/users/deactivate/?pk=${id}`)
+                .then(res => res.json())
+                .then(data => data)
+                .then(err => err)
+        }
+
+
+        document.getElementById('deactivate_user').addEventListener("click", function (e) {
+                    Swal.fire({
+                        title: "مواظب باش",
+                        text: "از حذف این کاربر اطمینان دارید؟",
+                        icon: "warning",
+                        showCancelButton: true,
+                    }).then(function (result) {
+                        if (result.value) {
+                            Swal.fire(
+                                "حذف!",
+                                "کاربر با موفقیت حذف شد",
+                                "success"
+                            )
+
+                            deactivate_user("{{ user.id }}")
+                        }
+                    });
+                }
+            )
+    </script>
 {% endblock %}
