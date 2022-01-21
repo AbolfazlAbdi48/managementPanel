@@ -139,15 +139,16 @@ def user_create_view(request):
 @user_passes_test(lambda u: u.is_superuser)
 def user_update_view(request, pk, username):
     user = get_object_or_404(User, pk=pk, username=username)
+    employee = Employee.objects.filter(account=user)
+    customer = Customer.objects.filter(account=user)
     user_status = 'superuser'
 
-    match user:
-        case user.is_staff:
-            user_status = 'staff'
-        case bool(user.employee):
-            user_status = 'employee'
-        case bool(user.customer):
-            user_status = 'customer'
+    if user.is_staff:
+        user_status = 'staff'
+    elif employee.exists():
+        user_status = 'employee'
+    elif customer.exists():
+        user_status = 'customer'
 
     update_form = UserUpdateForm(
         data=request.POST or None,
@@ -172,23 +173,21 @@ def user_update_view(request, pk, username):
             status = update_form.cleaned_data.get('status')
 
             if user_status != status:
+                if user.is_staff:
+                    user.is_staff = False
+                    user.save()
+                elif employee.exists():
+                    employee.delete()
+                elif customer.exists():
+                    customer.delete()
+
                 match status:
                     case "staff":
                         user.is_staff = True
                         user.save()
                     case "customer":
-                        if bool(user.employee):
-                            Employee.objects.get(account=user).delete()
-                        elif user.is_staff:
-                            user.is_staff = False
-                            user.save()
                         Customer.objects.create(account=user)
                     case "employee":
-                        if bool(user.customer):
-                            Customer.objects.get(account=user).delete()
-                        elif user.is_staff:
-                            user.is_staff = False
-                            user.save()
                         Employee.objects.create(account=user)
 
             return redirect('users:users-list')

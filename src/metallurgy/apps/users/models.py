@@ -39,8 +39,8 @@ class Customer(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'مشتری'
-        verbose_name_plural = 'مشتریان'
+        verbose_name = 'کارفرما'
+        verbose_name_plural = 'کارفرمایان'
 
     def __str__(self):
         return self.account.username
