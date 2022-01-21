@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # my apps
-    "metallurgy.apps.users",
+    'metallurgy.apps.users',
     'metallurgy.apps.core',
 ]
 

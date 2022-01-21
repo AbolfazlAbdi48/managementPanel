@@ -69,6 +69,7 @@ class UserListView(IsSuperUserMixin, ListView):
     template_name = 'users/users_list.html'
     paginate_by = 12
 
+
 class DeactivateUserListView(IsSuperUserMixin, ListView):
     def get_queryset(self):
         return User.objects.filter(is_active=False).order_by('-id')
@@ -206,11 +207,15 @@ class UserDetailView(IsSuperUserMixin, DetailView):
 
 @user_passes_test(lambda u: u.is_superuser)
 @csrf_protect
-def users_deactivate_view(request):
+def users_activate_deactivate_view(request):
     user_pk = request.GET.get('pk')
     user = User.objects.filter(pk=user_pk).first()
     if user:
-        user.is_active = False
+        match user.is_active:
+            case True:
+                user.is_active = False
+            case False:
+                user.is_active = True
         user.save()
         return JsonResponse(status=204, data={'message': 'deleted'})
     else:

@@ -56,9 +56,15 @@
                                                 </li>
                                                 <li class="navi-item">
                                                     <a href="javascript:void(0)"
-                                                       data-user-id="{{ user.pk }}" class="navi-link deactivate_user">
+                                                       data-user-id="{{ user.pk }}" class="navi-link delete_user">
             <span class="navi-text">
-                <span class="label label-xl label-inline label-light-danger">حذف</span>
+                <span class="label label-xl label-inline label-light-danger" id="delete_user_text">
+                    {% if user.is_active %}
+                        حذف
+                    {% else %}
+                        بازگردانی
+                    {% endif %}
+                </span>
             </span>
                                                     </a>
                                                 </li>
@@ -197,36 +203,70 @@
     <script src="{% static 'js/pages/features/miscellaneous/sweetalert2.js' %}"></script>
     <script>
         const deactivate_user = (id) => {
-            fetch(`/account/users/deactivate/?pk=${id}`)
+            fetch(`/account/users/is-active/?pk=${id}`)
                 .then(res => res.json())
                 .then(data => data)
                 .then(err => err)
         }
 
+        const delete_user_text = document.getElementById('delete_user_text')
+        const activate_deactivate_btn = document.getElementsByClassName('delete_user')
 
-        const deactivate_btn = document.getElementsByClassName('deactivate_user')
-        for (let i = 0; i < deactivate_btn.length; i++) {
-            deactivate_btn[i].addEventListener("click", function (e) {
-                    const user_id = this.getAttribute('data-user-id')
-
-                    Swal.fire({
-                        title: "مواظب باش",
-                        text: "از حذف این کاربر اطمینان دارید؟",
-                        icon: "warning",
-                        showCancelButton: true,
-                    }).then(function (result) {
-                        if (result.value) {
-                            Swal.fire(
-                                "حذف!",
-                                "کاربر با موفقیت حذف شد",
-                                "success"
-                            )
-
-                            deactivate_user(user_id)
-                        }
-                    });
-                }
-            )
-        }
     </script>
+
+    {% with request.resolver_match.url_name as url_name %}
+        {% if url_name == 'users-list' %}
+            <script>
+                for (let i = 0; i < activate_deactivate_btn.length; i++) {
+                    activate_deactivate_btn[i].addEventListener("click", function (e) {
+                            const user_id = this.getAttribute('data-user-id')
+
+                            Swal.fire({
+                                title: "مواظب باش",
+                                text: "از حذف این کاربر اطمینان دارید؟",
+                                icon: "warning",
+                                showCancelButton: true,
+                            }).then(function (result) {
+                                if (result.value) {
+                                    Swal.fire(
+                                        "حذف!",
+                                        "کاربر با موفقیت حذف شد",
+                                        "success"
+                                    )
+
+                                    deactivate_user(user_id)
+                                }
+                            });
+                        }
+                    )
+                }
+            </script>
+        {% else %}
+            <script>
+                for (let i = 0; i < activate_deactivate_btn.length; i++) {
+                    activate_deactivate_btn[i].addEventListener("click", function (e) {
+                            const user_id = this.getAttribute('data-user-id')
+
+                            Swal.fire({
+                                title: "بازگردانی",
+                                text: "از بازگردانی این کاربر اطمینان دارید؟",
+                                icon: "warning",
+                                showCancelButton: true,
+                            }).then(function (result) {
+                                if (result.value) {
+                                    Swal.fire(
+                                        "موفق!",
+                                        "کاربر با موفقیت بازگردانی شد",
+                                        "success"
+                                    )
+
+                                    deactivate_user(user_id)
+                                }
+                            });
+                        }
+                    )
+                }
+            </script>
+        {% endif %}
+    {% endwith %}
 {% endblock %}
