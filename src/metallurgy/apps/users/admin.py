@@ -6,6 +6,7 @@ from .models import User, Employee, Customer
 UserAdmin.fieldsets[1][1]['fields'] = (
     'first_name', 'last_name', 'email', 'phone_number', 'bio'
 )
+UserAdmin.fieldsets[3][1]['fields'] = ('last_login', 'date_joined', 'last_activity')
 
 admin.site.register(User, UserAdmin)
 

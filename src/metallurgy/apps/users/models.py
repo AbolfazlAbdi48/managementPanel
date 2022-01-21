@@ -12,6 +12,7 @@ from metallurgy.apps.utils.character_generator import random_character_generator
 class User(AbstractUser):
     bio = models.TextField(verbose_name='بیوگرافی')
     phone_number = models.CharField(max_length=13, null=True, blank=True, verbose_name='شماره تلفن')
+    last_activity = models.DateTimeField(null=True, blank=True, verbose_name='آخرین فعالیت')
 
     def get_last_login_jalali(self):
         return jalali_converter(self.last_login)
