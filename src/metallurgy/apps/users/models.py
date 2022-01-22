@@ -20,6 +20,9 @@ class User(AbstractUser):
     def get_last_login_jalali(self):
         return jalali_converter(self.last_login)
 
+    def get_last_activity_jalali(self):
+        return jalali_converter(self.last_activity)
+
 
 class Employee(models.Model):
     """
