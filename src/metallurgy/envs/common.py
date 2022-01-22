@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # my apps
     'metallurgy.apps.users',
     'metallurgy.apps.core',
+    'metallurgy.apps.departments',
 ]
 
 MIDDLEWARE = [
