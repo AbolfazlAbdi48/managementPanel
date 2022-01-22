@@ -3,6 +3,9 @@ from django.utils import timezone
 
 
 class LastActivityMiddleware:
+    """
+    The middleware set last activity for any user.
+    """
     def __init__(self, get_response):
         self.get_response = get_response
         # One-time configuration and initialization.

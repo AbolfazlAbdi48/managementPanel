@@ -29,10 +29,17 @@ from ...envs.common import SMS_SETTINGS
 
 @login_required
 def account_view(request):
+    """
+    The main account view
+    """
     return render(request, 'registration/profile/profile_home.html')
 
 
 class Login(AuthenticatedMixin, LoginView):
+    """
+    Customize Login form,
+    customize redirect url.
+    """
     authentication_form = UserLoginForm
 
     def get_success_url(self):
@@ -40,6 +47,9 @@ class Login(AuthenticatedMixin, LoginView):
 
 
 class RegisterView(AuthenticatedMixin, CreateView):
+    """
+    The view for register a user.
+    """
     model = User
     success_url = reverse_lazy('login')
     form_class = RegisterForm
@@ -47,6 +57,11 @@ class RegisterView(AuthenticatedMixin, CreateView):
 
 
 class AccountUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    The view for update account,
+    if user authenticated can use this view.
+    """
+
     def get_object(self, queryset=None):
         request = self.request
         return User.objects.get(pk=request.user.pk)
@@ -57,12 +72,21 @@ class AccountUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class AccountPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    """
+    The view for change account password,
+    if user authenticated can use this view.
+    """
     success_url = reverse_lazy('users:home')
     template_name = 'registration/profile/profile_change_password.html'
     form_class = AccountPasswordChangeForm
 
 
 class UserListView(IsSuperUserMixin, ListView):
+    """
+    The view return active users,
+    only superuser can see this view.
+    """
+
     def get_queryset(self):
         return User.objects.filter(is_active=True).order_by('-id')
 
@@ -71,6 +95,11 @@ class UserListView(IsSuperUserMixin, ListView):
 
 
 class DeactivateUserListView(IsSuperUserMixin, ListView):
+    """
+    The view return deactivated users,
+    only superuser can see this view.
+    """
+
     def get_queryset(self):
         return User.objects.filter(is_active=False).order_by('-id')
 
@@ -80,6 +109,10 @@ class DeactivateUserListView(IsSuperUserMixin, ListView):
 
 @user_passes_test(lambda u: u.is_superuser)
 def user_create_view(request):
+    """
+    The function-based view for create a new user,
+    uses user_passes_test decorator.
+    """
     create_form = UserCreateForm(
         data=request.POST or None,
         initial={
@@ -138,6 +171,10 @@ def user_create_view(request):
 
 @user_passes_test(lambda u: u.is_superuser)
 def user_update_view(request, pk, username):
+    """
+    The function-based view takes pk and username parameters,
+    then return current user and update his.
+    """
     user = get_object_or_404(User, pk=pk, username=username)
     employee = Employee.objects.filter(account=user)
     customer = Customer.objects.filter(account=user)
@@ -207,6 +244,11 @@ class UserDetailView(IsSuperUserMixin, DetailView):
 @user_passes_test(lambda u: u.is_superuser)
 @csrf_protect
 def users_activate_deactivate_view(request):
+    """
+    The view takes pk parameter,
+    if the current user is active it will deactivate it,
+    if the current user is deactivate it will active it.
+    """
     user_pk = request.GET.get('pk')
     user = User.objects.filter(pk=user_pk).first()
     if user:

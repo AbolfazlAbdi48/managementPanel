@@ -10,6 +10,9 @@ from .models import User
 
 
 class UserLoginForm(AuthenticationForm):
+    """
+    Customize login form.
+    """
     def __init__(self, *args, **kwargs):
         super(UserLoginForm, self).__init__(*args, **kwargs)
 
@@ -28,6 +31,10 @@ class UserLoginForm(AuthenticationForm):
 
 
 class RegisterForm(UserCreationForm):
+    """
+    Customize register form,
+    inheritance UserCreationForm.
+    """
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={'class': 'form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6',
@@ -76,6 +83,9 @@ class RegisterForm(UserCreationForm):
 
 
 class AccountUpdateForm(forms.ModelForm):
+    """
+    The form for update account.
+    """
     username = UsernameField(
         widget=forms.TextInput(
             attrs={'class': 'form-control form-control-lg form-control-solid',
@@ -118,6 +128,10 @@ class AccountUpdateForm(forms.ModelForm):
 
 
 class AccountPasswordChangeForm(PasswordChangeForm):
+    """
+    The form for change password,
+    inheritance from PasswordChangeForm.
+    """
     old_password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
@@ -147,6 +161,10 @@ class AccountPasswordChangeForm(PasswordChangeForm):
 
 
 class UserUpdateForm(forms.Form):
+    """
+    The form for create and update users,
+    contains some fields.
+    """
     STATUS_CHOICES = (
         ('staff', 'ارشد'),
         ('employee', 'کارمند'),
@@ -218,6 +236,10 @@ class UserUpdateForm(forms.Form):
 
 
 class UserCreateForm(UserUpdateForm):
+    """
+    The form inheritance from UserUpdateForm,
+    contains some validations.
+    """
     def clean_username(self):
         username = self.cleaned_data.get('username')
         is_exist = User.objects.filter(username=username).exists()

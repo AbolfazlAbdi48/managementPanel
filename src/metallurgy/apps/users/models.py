@@ -10,6 +10,9 @@ from metallurgy.apps.utils.character_generator import random_character_generator
 
 # Create your models here.
 class User(AbstractUser):
+    """
+    Customize user model.
+    """
     bio = models.TextField(verbose_name='بیوگرافی')
     phone_number = models.CharField(max_length=13, null=True, blank=True, verbose_name='شماره تلفن')
     last_activity = models.DateTimeField(null=True, blank=True, verbose_name='آخرین فعالیت')
@@ -19,6 +22,10 @@ class User(AbstractUser):
 
 
 class Employee(models.Model):
+    """
+    The main model of the employee,
+    One-To-One relationship with User model.
+    """
     account = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='اکانت کارمند')
     is_delete = models.BooleanField(default=False, verbose_name='حذف شده / نشده')
     created = models.DateTimeField(auto_now_add=True)
@@ -33,6 +40,10 @@ class Employee(models.Model):
 
 
 class Customer(models.Model):
+    """
+    The main model of the customer,
+    One-To-One relationship with User model.
+    """
     account = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='اکانت مشتری')
     is_delete = models.BooleanField(default=False, verbose_name='حذف شده / نشده')
     created = models.DateTimeField(auto_now_add=True)
