@@ -16,3 +16,6 @@ class Department(models.Model):
 
     def __str__(self):
         return f"{self.name} | {self.description}"
+
+    def get_name_replace(self):
+        return f"{self.name.replace(' ', '-')}"
