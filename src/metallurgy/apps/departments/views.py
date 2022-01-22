@@ -11,6 +11,7 @@ class DepartmentsListView(IsSuperUserMixin, ListView):
     """
 
     model = Department
+    ordering = ['-id']
     template_name = 'departments/departments_list.html'
     paginate_by = 12
 
