@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Department
 from .forms import CreateUpdateDepartmentForm
 from ..core.mixins import IsSuperUserMixin
@@ -39,6 +39,16 @@ class DepartmentCreateView(IsSuperUserMixin, CreateView):
     """
 
     model = Department
+    template_name = 'departments/department_create_update.html'
+    success_url = reverse_lazy('departments:list')
+    form_class = CreateUpdateDepartmentForm
+
+
+class DepartmentUpdateView(UpdateView):
+    def get_object(self, queryset=None):
+        department_pk = self.kwargs.get('pk')
+        return Department.objects.filter(pk=department_pk).first()
+
     template_name = 'departments/department_create_update.html'
     success_url = reverse_lazy('departments:list')
     form_class = CreateUpdateDepartmentForm

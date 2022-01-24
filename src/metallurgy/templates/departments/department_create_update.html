@@ -3,24 +3,31 @@
 {% load humanize %}
 
 {% block title %}
-    برند | ایجاد دپارتمان
+    {% with request.resolver_match.url_name as url_name %}
+        {% if url_name == 'create' %}
+            برند | ایجاد دپارتمان
+        {% else %}
+            برند | ویرایش دپارتمان
+        {% endif %}
+    {% endwith %}
 {% endblock %}
 
 {% block content %}
-    <div class="d-flex flex-column-fluid">
-        <!--begin::Container-->
-        <div class=" container ">
-            <!--begin::Card-->
-            <div class="card card-custom">
-                <div class="card-body p-0">
-                    <div class="wizard wizard-1" id="kt_projects_add" data-wizard-state="first"
-                         data-wizard-clickable="true">
-                        <div class="kt-grid__item">
-                            <!--begin::ویزارد Nav-->
-                            <div class="wizard-nav border-bottom">
-                                <div class="wizard-steps p-8 p-lg-10">
-                                    <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
-                                        <div class="wizard-label">
+    {% with request.resolver_match.url_name as url_name %}
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class=" container ">
+                <!--begin::Card-->
+                <div class="card card-custom">
+                    <div class="card-body p-0">
+                        <div class="wizard wizard-1" id="kt_projects_add" data-wizard-state="first"
+                             data-wizard-clickable="true">
+                            <div class="kt-grid__item">
+                                <!--begin::ویزارد Nav-->
+                                <div class="wizard-nav border-bottom">
+                                    <div class="wizard-steps p-8 p-lg-10">
+                                        <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                            <div class="wizard-label">
 								<span class="svg-icon svg-icon-4x wizard-icon"><!--begin::Svg Icon | path:assets/media/svg/icons/ارتباطات/چت-check.svg--><svg
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -32,12 +39,13 @@
               fill="#000000"></path>
     </g>
 </svg><!--end::Svg Icon--></span>
-                                            <h3 class="wizard-title">جزئیات دپارتمان</h3>
-                                        </div>
-                                        <span class="svg-icon svg-icon-xl wizard-arrow"><!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Arrow-right.svg--><svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
-                                                viewBox="0 0 24 24" version="1.1">
+                                                <h3 class="wizard-title">جزئیات دپارتمان</h3>
+                                            </div>
+                                            <span class="svg-icon svg-icon-xl wizard-arrow"><!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Arrow-right.svg--><svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                    height="24px"
+                                                    viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <polygon points="0 0 24 0 24 24 0 24"></polygon>
         <rect fill="#000000" opacity="0.3"
@@ -48,8 +56,8 @@
               transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997) "></path>
     </g>
 </svg><!--end::Svg Icon--></span></div>
-                                    <div class="wizard-step" data-wizard-type="step" data-wizard-state="pending">
-                                        <div class="wizard-label">
+                                        <div class="wizard-step" data-wizard-type="step" data-wizard-state="pending">
+                                            <div class="wizard-label">
 								<span class="svg-icon svg-icon-4x wizard-icon"><!--begin::Svg Icon | path:assets/media/svg/icons/general/اطلاع2.svg--><svg
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -60,12 +68,13 @@
         <circle fill="#000000" opacity="0.3" cx="18.5" cy="5.5" r="2.5"></circle>
     </g>
 </svg><!--end::Svg Icon--></span>
-                                            <h3 class="wizard-title">بررسی و ارسال کنید</h3>
-                                        </div>
-                                        <span class="svg-icon svg-icon-xl wizard-arrow last"><!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Arrow-right.svg--><svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
-                                                viewBox="0 0 24 24" version="1.1">
+                                                <h3 class="wizard-title">بررسی و ارسال کنید</h3>
+                                            </div>
+                                            <span class="svg-icon svg-icon-xl wizard-arrow last"><!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Arrow-right.svg--><svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                    height="24px"
+                                                    viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <polygon points="0 0 24 0 24 24 0 24"></polygon>
         <rect fill="#000000" opacity="0.3"
@@ -76,104 +85,122 @@
               transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997) "></path>
     </g>
 </svg><!--end::Svg Icon--></span></div>
+                                    </div>
                                 </div>
+                                <!--end::ویزارد Nav-->
                             </div>
-                            <!--end::ویزارد Nav-->
-                        </div>
-                        <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
-                            <div class="col-xl-12 col-xxl-7">
-                                <!--begin::Form ویزارد-->
-                                <form class="form fv-plugins-bootstrap fv-plugins-framework" id="kt_projects_add_form"
-                                      method="post">
-                                    {% csrf_token %}
-                                    <!--begin::گام 1-->
-                                    <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
-                                        <h3 class="mb-10 font-weight-bold text-dark">جزئیات دپارتمان:</h3>
-                                        <div class="row">
-                                            <div class="col-xl-12">
-                                                <div class="form-group row fv-plugins-icon-container">
-                                                    <label class="col-xl-3 col-lg-3 col-form-label">نام دپارتمان</label>
-                                                    <div class="col-lg-9 col-xl-9">
-                                                        {{ form.name }}
-                                                        <div class="fv-plugins-message-container"></div>
-                                                        {% if form.name.errors %}
-                                                            <div class="text-danger">{{ form.name.errors }}</div>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row fv-plugins-icon-container">
-                                                    <label class="col-xl-3 col-lg-3 col-form-label">توضیحات
-                                                        دپارتمان</label>
-                                                    <div class="col-lg-9 col-xl-9">
-                                                        {{ form.description }}
-                                                        <div class="fv-plugins-message-container"></div>
-                                                        {% if form.discription.errors %}
-                                                            <div class="text-danger">{{ form.discription.errors }}</div>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row fv-plugins-icon-container">
-                                                    <label class="col-xl-3 col-lg-3 col-form-label">کاربران ارشد</label>
-                                                    <div class="col-lg-9 col-xl-9">
-                                                        {{ form.staff_users }}
-                                                        <div class="fv-plugins-message-container">برای داشتن چند کلید
-                                                            انتخاب کنترل را نگهدارید
+                            <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
+                                <div class="col-xl-12 col-xxl-7">
+                                    <!--begin::Form ویزارد-->
+                                    <form class="form fv-plugins-bootstrap fv-plugins-framework"
+                                          id="kt_projects_add_form"
+                                          method="post">
+                                        {% csrf_token %}
+                                        <!--begin::گام 1-->
+                                        <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                                            <h3 class="mb-10 font-weight-bold text-dark">جزئیات دپارتمان:</h3>
+                                            <div class="row">
+                                                <div class="col-xl-12">
+                                                    <div class="form-group row fv-plugins-icon-container">
+                                                        <label class="col-xl-3 col-lg-3 col-form-label">نام
+                                                            دپارتمان</label>
+                                                        <div class="col-lg-9 col-xl-9">
+                                                            {{ form.name }}
+                                                            <div class="fv-plugins-message-container"></div>
+                                                            {% if form.name.errors %}
+                                                                <div class="text-danger">{{ form.name.errors }}</div>
+                                                            {% endif %}
                                                         </div>
-                                                        {% if form.staff_users.errors %}
-                                                            <div class="text-danger">{{ form.staff_users.errors }}</div>
-                                                        {% endif %}
-                                                    {% if form.non_field_errors %}
-                                                            <div class="text-danger">{{ form.non_field_errors }}</div>
-                                                        {% endif %}
+                                                    </div>
+                                                    <div class="form-group row fv-plugins-icon-container">
+                                                        <label class="col-xl-3 col-lg-3 col-form-label">توضیحات
+                                                            دپارتمان</label>
+                                                        <div class="col-lg-9 col-xl-9">
+                                                            {{ form.description }}
+                                                            <div class="fv-plugins-message-container"></div>
+                                                            {% if form.discription.errors %}
+                                                                <div class="text-danger">{{ form.discription.errors }}</div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row fv-plugins-icon-container">
+                                                        <label class="col-xl-3 col-lg-3 col-form-label">کاربران
+                                                            ارشد</label>
+                                                        <div class="col-lg-9 col-xl-9">
+                                                            {{ form.staff_users }}
+                                                            <div class="fv-plugins-message-container">برای داشتن چند
+                                                                انتخاب کنترل را نگهدارید
+                                                            </div>
+                                                            {% if form.staff_users.errors %}
+                                                                <div class="text-danger">{{ form.staff_users.errors }}</div>
+                                                            {% endif %}
+                                                            {% if form.non_field_errors %}
+                                                                <div class="text-danger">{{ form.non_field_errors }}</div>
+                                                            {% endif %}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!--end::گام 1-->
+                                        <!--end::گام 1-->
 
-                                    <div class="pb-5" data-wizard-type="step-content">
-                                        <h4 class="mb-10 font-weight-bold">از ایجاد این دپارتمان اطمینان دارید؟</h4>
-                                    </div>
-                                    <!--end::گام 4-->
+                                        <div class="pb-5" data-wizard-type="step-content">
+                                            {% if url_name == 'create' %}
+                                                <h4 class="mb-10 font-weight-bold">از ایجاد این دپارتمان اطمینان
+                                                    دارید؟</h4>
+                                            {% else %}
+                                                <h4 class="mb-10 font-weight-bold">از ویرایش این دپارتمان اطمینان
+                                                    دارید؟</h4>
+                                            {% endif %}
+                                        </div>
+                                        <!--end::گام 4-->
 
-                                    <!--begin::اقدامات-->
-                                    <div class="d-flex justify-content-between border-top mt-5 pt-10">
-                                        <div class="mr-2">
-                                            <button type="button"
-                                                    class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4"
-                                                    data-wizard-type="action-prev">
-                                                قبلی
-                                            </button>
+                                        <!--begin::اقدامات-->
+                                        <div class="d-flex justify-content-between border-top mt-5 pt-10">
+                                            <div class="mr-2">
+                                                <button type="button"
+                                                        class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4"
+                                                        data-wizard-type="action-prev">
+                                                    قبلی
+                                                </button>
+                                            </div>
+                                            <div>
+                                                {% if url_name == 'create' %}
+                                                    <button type="submit"
+                                                            class="btn btn-success font-weight-bold text-uppercase px-9 py-4"
+                                                            data-wizard-type="action-submit">
+                                                        ایجاد
+                                                    </button>
+                                                {% else %}
+                                                    <button type="submit"
+                                                            class="btn btn-warning font-weight-bold text-uppercase px-9 py-4"
+                                                            data-wizard-type="action-submit">
+                                                        ویرایش
+                                                    </button>
+                                                {% endif %}
+                                                <button type="button"
+                                                        class="btn btn-primary font-weight-bold text-uppercase px-9 py-4"
+                                                        data-wizard-type="action-next">
+                                                    گام بعد
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <button type="submit"
-                                                    class="btn btn-success font-weight-bold text-uppercase px-9 py-4"
-                                                    data-wizard-type="action-submit">
-                                                ایجاد
-                                            </button>
-                                            <button type="button"
-                                                    class="btn btn-primary font-weight-bold text-uppercase px-9 py-4"
-                                                    data-wizard-type="action-next">
-                                                گام بعد
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <!--end::اقدامات-->
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </form>
-                                <!--end::Form ویزارد-->
+                                        <!--end::اقدامات-->
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </form>
+                                    <!--end::Form ویزارد-->
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!--end::Card-->
             </div>
-            <!--end::Card-->
+            <!--end::Container-->
         </div>
-        <!--end::Container-->
-    </div>
+    {% endwith %}
 {% endblock %}
 
 {% block new_css_code %}
