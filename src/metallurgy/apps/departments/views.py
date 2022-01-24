@@ -1,5 +1,7 @@
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView
 from .models import Department
+from .forms import CreateUpdateDepartmentForm
 from ..core.mixins import IsSuperUserMixin
 
 
@@ -28,3 +30,15 @@ class DepartmentDetailView(DetailView):
 
     template_name = 'departments/department_detail.html'
     context_object_name = 'department'
+
+
+class DepartmentCreateView(IsSuperUserMixin, CreateView):
+    """
+    The view create a new department,
+    superuser only can work with this view.
+    """
+
+    model = Department
+    template_name = 'departments/department_create_update.html'
+    success_url = reverse_lazy('departments:list')
+    form_class = CreateUpdateDepartmentForm

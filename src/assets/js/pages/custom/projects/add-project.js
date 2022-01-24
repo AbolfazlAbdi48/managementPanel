@@ -58,136 +58,17 @@ var KTProjectsAdd = function () {
 			_formEl,
 			{
 				fields: {
-					projectname: {
+					name: {
 						validators: {
 							notEmpty: {
-								message: 'نام پروژه ضروری است'
+								message: 'نام دپارتمان ضروری است'
 							}
 						}
 					},
-					projectowner: {
+					description: {
 						validators: {
 							notEmpty: {
-								message: "مالک پروژه لازم است"
-							}
-						}
-					},
-					customername: {
-						validators: {
-							notEmpty: {
-								message: "نام مشتری لازم است"
-							}
-						}
-					},
-					phone: {
-						validators: {
-							notEmpty: {
-								message: "تلفن لازم است"
-							},
-							phone: {
-								country: 'US',
-								message: "این تعداد شماره تلفن معتبر ایالات متحده نیست. (به عنوان مثال 5554443333) "
-							}
-						}
-					},
-					email: {
-						validators: {
-							notEmpty: {
-								message: 'ایمیل لازم است'
-							},
-							emailAddress: {
-								message: "مقدار یک آدرس ایمیل معتبر نیست"
-							}
-						}
-					},
-					companywebsite: {
-						validators: {
-							notEmpty: {
-								message: 'آدرس وب سایت لازم است'
-							}
-						}
-					}
-				},
-				plugins: {
-					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
-				}
-			}
-		));
-
-		// Step 2
-		_validations.push(FormValidation.formValidation(
-			_formEl,
-			{
-				fields: {
-					// Step 2
-					communication: {
-						validators: {
-							choice: {
-								min: 1,
-								message: "لطفا حداقل 1 گزینه را انتخاب کنید"
-							}
-						}
-					},
-					language: {
-						validators: {
-							notEmpty: {
-								message: "لطفا یک زبان را انتخاب کنید"
-							}
-						}
-					},
-					timezone: {
-						validators: {
-							notEmpty: {
-								message: "لطفا منطقه زمانی را انتخاب کنید"
-							}
-						}
-					}
-				},
-				plugins: {
-					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
-				}
-			}
-		));
-
-		// Step 3
-		_validations.push(FormValidation.formValidation(
-			_formEl,
-			{
-				fields: {
-					address1: {
-						validators: {
-							notEmpty: {
-								message: "آدرس لازم است"
-							}
-						}
-					},
-					postcode: {
-						validators: {
-							notEmpty: {
-								message: "کدپستی لازم است"
-							}
-						}
-					},
-					city: {
-						validators: {
-							notEmpty: {
-								message: "شهر مورد نیاز است"
-							}
-						}
-					},
-					state: {
-						validators: {
-							notEmpty: {
-								message: "استان لازم است"
-							}
-						}
-					},
-					country: {
-						validators: {
-							notEmpty: {
-								message: "کشور مورد نیاز است"
+								message: "توضیحات دپارتمان لازم است"
 							}
 						}
 					},
