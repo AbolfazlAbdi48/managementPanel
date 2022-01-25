@@ -1,0 +1,123 @@
+{% extends 'base/_Base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+    برند | حذف دپارتمان
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class=" container ">
+            <!--begin::Row-->
+            <div class="row mb-10">
+                <div class="col-md-12">
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <!--begin::کال اوت-->
+                        <div class="card card-custom mb-2 bg-diagonal bg-diagonal-light-danger mb-3">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                    <div class="d-flex flex-column mr-5">
+                                        <a href="{% url 'departments:detail' object.id object.get_name_replace %}"
+                                           class="h4 text-dark text-hover-primary mb-5">
+                                            حذف "{{ object.name }}" ؟
+                                        </a>
+                                        <p class="text-dark-50">
+                                            بعد از حذف تمام داده های مربوط به این دپارتمان از بین خواهند رفت !!!
+                                        </p>
+                                    </div>
+                                    <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                        <button type="submit"
+                                                class="btn font-weight-bolder text-uppercase btn-danger py-4 px-6">
+                                            حذف
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::کال اوت-->
+                    </form>
+                    <!--end::کال اوت-->
+
+                </div>
+                <div class="col-md-4">
+                    <!--begin::کال اوت-->
+                    <div class="card card-custom mb-2 bg-diagonal bg-diagonal-light-info mb-3">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                <div class="d-flex flex-column mr-5">
+                                    <a href="{% url 'departments:list' %}"
+                                       class="h4 text-dark text-hover-primary mb-5">
+                                        بازگشت
+                                    </a>
+                                    <p class="text-dark-50">
+                                        بازگشت به لیست دپارتمان ها
+                                    </p>
+                                </div>
+                                <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                    <a href="{% url 'departments:list' %}"
+                                            class="btn font-weight-bolder text-uppercase btn-light-info py-4 px-6">
+                                        بازگشت
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <!--begin::کال اوت-->
+                    <div class="card card-custom mb-2 bg-diagonal bg-diagonal-light-success mb-3">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                <div class="d-flex flex-column mr-5">
+                                    <a href="{% url 'departments:detail' object.id object.get_name_replace %}"
+                                       class="h4 text-dark text-hover-primary mb-5">
+                                        "{{ object.name }}" ؟
+                                    </a>
+                                    <p class="text-dark-50">
+                                        درصورت نیاز دوباره آنرا بخوانید
+                                    </p>
+                                </div>
+                                <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                    <a href="{% url 'departments:detail' object.id object.get_name_replace %}" target="_blank"
+                                            class="btn font-weight-bolder text-uppercase btn-light-success py-4 px-6">
+                                        خواندن
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <!--begin::کال اوت-->
+                    <div class="card card-custom mb-2 bg-diagonal bg-diagonal-light-warning mb-3">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                <div class="d-flex flex-column mr-5">
+                                    <a href="{% url 'departments:update' object.id object.get_name_replace %}"
+                                       class="h4 text-dark text-hover-primary mb-5">
+                                        ویرایش
+                                    </a>
+                                    <p class="text-dark-50">
+                                        درصورت نیاز دوباره آنرا ویرایش کنید
+                                    </p>
+                                </div>
+                                <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                    <a href="{% url 'departments:update' object.id object.get_name_replace %}" target="_blank"
+                                            class="btn font-weight-bolder text-uppercase btn-light-warning py-4 px-6">
+                                        ویرایش
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Row-->
+        </div>
+        <!--end::Container-->
+    </div>
+{% endblock %}

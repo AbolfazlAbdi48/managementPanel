@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Department
 from .forms import CreateUpdateDepartmentForm
 from ..core.mixins import IsSuperUserMixin, IsSuperUserOrDepartmentStaffUserMixin
@@ -55,6 +55,10 @@ class DepartmentCreateView(IsSuperUserMixin, CreateView):
 
 
 class DepartmentUpdateView(IsSuperUserOrDepartmentStaffUserMixin, UpdateView):
+    """
+    The view update a department.
+    """
+
     def get_object(self, queryset=None):
         department_pk = self.kwargs.get('pk')
         department = get_object_or_404(Department, pk=department_pk)
@@ -63,3 +67,17 @@ class DepartmentUpdateView(IsSuperUserOrDepartmentStaffUserMixin, UpdateView):
     template_name = 'departments/department_create_update.html'
     success_url = reverse_lazy('departments:list')
     form_class = CreateUpdateDepartmentForm
+
+
+class DepartmentDeleteView(IsSuperUserOrDepartmentStaffUserMixin, DeleteView):
+    """
+    The view for delete department.
+    """
+
+    def get_object(self, queryset=None):
+        department_pk = self.kwargs.get('pk')
+        department = get_object_or_404(Department, pk=department_pk)
+        return department
+
+    template_name = 'departments/department_delete.html'
+    success_url = reverse_lazy('departments:list')
