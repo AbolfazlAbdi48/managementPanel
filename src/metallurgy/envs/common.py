@@ -40,11 +40,13 @@ INSTALLED_APPS = [
 
     # third-party packages
     'corsheaders',
+    'django_jalali',
 
     # my apps
     'metallurgy.apps.users',
     'metallurgy.apps.core',
     'metallurgy.apps.departments',
+    'metallurgy.apps.projects',
 ]
 
 MIDDLEWARE = [
