@@ -5,9 +5,12 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Department
 from .forms import CreateUpdateDepartmentForm
 from ..core.mixins import IsSuperUserMixin, IsSuperUserOrDepartmentStaffUserMixin
+from ..projects.models import Project
 
 
 # Create your views here.
+
+
 class DepartmentsListView(ListView):
     """
     The view return all departments,
@@ -37,6 +40,13 @@ class DepartmentDetailView(IsSuperUserOrDepartmentStaffUserMixin, DetailView):
         department_pk = self.kwargs.get('pk')
         department = get_object_or_404(Department, pk=department_pk)
         return department
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        projects = Project.objects.filter(department=self.object).order_by('-id')
+        print(projects)
+        context['projects'] = projects
+        return context
 
     template_name = 'departments/department_detail.html'
     context_object_name = 'department'
