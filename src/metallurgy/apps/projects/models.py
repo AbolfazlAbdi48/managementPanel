@@ -9,10 +9,19 @@ from ..utils.jalali_date import jalali_converter
 
 
 class Project(models.Model):
+    ACCESSIBILITY_CHOICES = (
+        ('private', 'خصوصی'),
+        ('public', 'عمومی'),
+        ('only_customer', 'فقط کارفرما')
+    )
+
     name = models.CharField(max_length=150, verbose_name='نام پروژه')
     description = models.TextField(verbose_name='توضیحات پروژه')
     department = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name='دپارتمان مربوطه')
     customers = models.ManyToManyField(Customer, related_name='customers', verbose_name='کارفرمایان')
+    accessibility = models.CharField(
+        max_length=13, choices=ACCESSIBILITY_CHOICES, null=True, blank=True, verbose_name='دسترسی'
+    )
     start_date = jmodels.jDateField(verbose_name='تاریخ شروع')
     end_date = jmodels.jDateField(verbose_name='تاریخ پایان', null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
