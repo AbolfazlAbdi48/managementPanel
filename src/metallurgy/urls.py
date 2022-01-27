@@ -23,6 +23,7 @@ from metallurgy.apps.users.views import Login
 urlpatterns = [
     path('', include('metallurgy.apps.core.urls')),
     path('departments/', include('metallurgy.apps.departments.urls')),
+    path('projects/', include('metallurgy.apps.projects.urls')),
     path('account/', include('metallurgy.apps.users.urls')),
     path('account/login/', Login.as_view(), name='login'),
     path('admin/', admin.site.urls),

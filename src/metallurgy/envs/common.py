@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # third-party packages
     'corsheaders',
     'django_jalali',
+    'jalali_date',
 
     # my apps
     'metallurgy.apps.users',
@@ -143,4 +144,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SMS_SETTINGS = {
     "API_KEY": "df4a5451f02b56570aaec1615c3c2aac239668cceb549fec1c044560563303df",
     "ADMIN_PHONE_NUMBER": "09030542101",
+}
+
+JALALI_DATE_DEFAULTS = {
+    'Strftime': {
+        'date': '%y/%m/%d',
+        'datetime': '%H:%M:%S _ %y/%m/%d',
+    },
+    'Static': {
+        'js': [
+            # loading datepicker
+            'admin/js/django_jalali.min.js',
+            # OR
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/calendar.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js',
+            # 'admin/js/main.js',
+        ],
+        'css': {
+            'all': [
+                'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css',
+            ]
+        }
+    },
 }

@@ -61,17 +61,73 @@ var KTProjectsAdd = function () {
 					name: {
 						validators: {
 							notEmpty: {
-								message: 'نام دپارتمان ضروری است'
+								message: 'نام پروژه ضروری است'
 							}
 						}
 					},
 					description: {
 						validators: {
 							notEmpty: {
-								message: "توضیحات دپارتمان لازم است"
+								message: "توضیحات پروژه لازم است"
+							}
+						}
+					}
+				},
+				plugins: {
+					trigger: new FormValidation.plugins.Trigger(),
+					bootstrap: new FormValidation.plugins.Bootstrap()
+				}
+			}
+		));
+
+		// Step 2
+		_validations.push(FormValidation.formValidation(
+			_formEl,
+			{
+				fields: {
+					// Step 2
+					accessibility: {
+						validators: {
+							choice: {
+								min: 1,
+								message: "لطفا حداقل 1 گزینه را انتخاب کنید"
 							}
 						}
 					},
+					start_date: {
+						validators: {
+							notEmpty: {
+								message: "لطفا تاریخ شروع را انتخاب کنید"
+							}
+						}
+					},
+					end_date: {
+						validators: {
+							notEmpty: {
+								message: "لطفا تاریخ پایان را انتخاب کنید"
+							}
+						}
+					}
+				},
+				plugins: {
+					trigger: new FormValidation.plugins.Trigger(),
+					bootstrap: new FormValidation.plugins.Bootstrap()
+				}
+			}
+		));
+
+		// Step 3
+		_validations.push(FormValidation.formValidation(
+			_formEl,
+			{
+				fields: {
+					customers: {
+						validators: {
+							notEmpty: {
+								message: "لطفا یک یا چند کارفرما انتخاب کنید"
+							}
+						}
+					}
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
