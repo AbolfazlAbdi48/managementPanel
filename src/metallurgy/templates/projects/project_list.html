@@ -28,7 +28,7 @@
                                     <!--begin::اطلاعات-->
                                     <div class="d-flex flex-column mr-auto">
                                         <!--begin: Title-->
-                                        <a href="#"
+                                        <a href="{% url 'projects:detail' project.pk project.get_name_replace %}"
                                            class="card-title text-hover-primary font-weight-bolder font-size-h5 text-dark mb-1">
                                             {{ project.name }}
                                         </a>
@@ -116,7 +116,7 @@
                                             {% if project.get_progress.final_date <= 0 %}
                                                 به اتمام رسیده
                                             {% else %}
-                                                پیشرفت: ({{ project.get_progress.final_date }} روز مانده)
+                                                {{ project.get_progress.final_date }} روز تا اتمام
                                             {% endif %}
                                         </span>
                                         <div class="d-flex align-items-center pt-2">
@@ -211,10 +211,10 @@
                                      class="font-weight-bolder text-primary ml-2">ویرایش</a>
                                     </div>
                                 </div>
-                                <button type="button"
+                                <a href="{% url 'projects:detail' project.pk project.get_name_replace %}"
                                         class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">
                                     جزییات
-                                </button>
+                                </a>
                             </div>
                             <!--end::Footer-->
                         </div>

@@ -81,3 +81,21 @@ class ProjectFormMixin:
             self.obj.save()
 
         return super().form_valid(form)
+
+
+class ProjectDetailMixin:
+    """
+    it first check accessibility and then return access.
+    """
+
+    def dispatch(self, request, pk, name, *args, **kwargs):
+        project = get_object_or_404(Project, pk=pk)
+        if request.user.is_staff and request.user in project.department.staff_users.all() \
+                or request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        elif project.accessibility == 'public' and request.user:
+            return super().dispatch(request, *args, **kwargs)
+        elif project.accessibility == 'only_customer' \
+                and project.customers.filter(account=request.user).exists():
+            return super().dispatch(request, *args, **kwargs)
+        raise Http404

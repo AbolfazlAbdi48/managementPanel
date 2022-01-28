@@ -8,7 +8,8 @@ from ..core.mixins import (
     IsSuperUserOrStaffUserMixin,
     ProjectDepartmentStaffUserMixin,
     ProjectCreateMixin,
-    ProjectFormMixin
+    ProjectFormMixin,
+    ProjectDetailMixin
 )
 
 
@@ -24,6 +25,15 @@ class ProjectsListView(IsSuperUserOrStaffUserMixin, ListView):
 
     template_name = 'projects/project_list.html'
     paginate_by = 12
+
+
+class ProjectDetailView(ProjectDetailMixin, DetailView):
+    def get_object(self, queryset=None):
+        project_pk = self.kwargs.get('pk')
+        project = get_object_or_404(Project, pk=project_pk)
+        return project
+
+    template_name = 'projects/project_detail.html'
 
 
 class ProjectCreateView(ProjectCreateMixin, ProjectFormMixin, CreateView):
