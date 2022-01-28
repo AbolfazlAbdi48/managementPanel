@@ -60,7 +60,6 @@ class DepartmentCreateView(IsSuperUserMixin, CreateView):
 
     model = Department
     template_name = 'departments/department_create_update.html'
-    success_url = reverse_lazy('departments:list')
     form_class = CreateUpdateDepartmentForm
 
 
@@ -75,7 +74,6 @@ class DepartmentUpdateView(IsSuperUserOrDepartmentStaffUserMixin, UpdateView):
         return department
 
     template_name = 'departments/department_create_update.html'
-    success_url = reverse_lazy('departments:list')
     form_class = CreateUpdateDepartmentForm
 
 

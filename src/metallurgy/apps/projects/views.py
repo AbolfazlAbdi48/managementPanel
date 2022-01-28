@@ -43,7 +43,6 @@ class ProjectCreateView(ProjectCreateMixin, ProjectFormMixin, CreateView):
     """
 
     model = Project
-    success_url = reverse_lazy('departments:list')
     template_name = 'projects/project_create_update.html'
     form_class = ProjectCreateUpdateForm
 
@@ -59,6 +58,5 @@ class ProjectUpdateView(ProjectDepartmentStaffUserMixin, UpdateView):
         project = get_object_or_404(Project, pk=project_pk)
         return project
 
-    success_url = reverse_lazy('departments:list')
     template_name = 'projects/project_create_update.html'
     form_class = ProjectCreateUpdateForm
