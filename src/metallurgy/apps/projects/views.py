@@ -6,6 +6,8 @@ from .forms import ProjectCreateUpdateForm
 from .models import Project
 from ..core.mixins import (
     IsSuperUserOrStaffUserMixin,
+)
+from .mixins import (
     ProjectDepartmentStaffUserMixin,
     ProjectCreateMixin,
     ProjectFormMixin,

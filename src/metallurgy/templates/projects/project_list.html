@@ -181,7 +181,7 @@
                                             {% for customer in project.customers.all %}
                                                 <div class="symbol symbol-30 symbol-circle" data-toggle="tooltip"
                                                      title=""
-                                                     data-original-title="{{ customer }}">
+                                                     data-original-title="{{ customer.account.get_full_name }}">
                                                     <img alt="Pic" src="{% static 'media/users/300_25.jpg' %}">
                                                 </div>
                                             {% endfor %}
