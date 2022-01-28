@@ -5,14 +5,25 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .forms import ProjectCreateUpdateForm
 from .models import Project
 from ..core.mixins import (
-    IsSuperUserMixin,
+    IsSuperUserOrStaffUserMixin,
     ProjectDepartmentStaffUserMixin,
     ProjectCreateMixin,
     ProjectFormMixin
 )
 
+
 # Create your views here.
-from ..departments.models import Department
+
+class ProjectsListView(IsSuperUserOrStaffUserMixin, ListView):
+    def get_queryset(self):
+        request = self.request
+        if request.user.is_superuser:
+            return Project.objects.all().order_by('-id')
+        elif request.user.is_staff:
+            return Project.objects.filter(department__staff_users__in=[request.user]).order_by('-id')
+
+    template_name = 'projects/project_list.html'
+    paginate_by = 12
 
 
 class ProjectCreateView(ProjectCreateMixin, ProjectFormMixin, CreateView):

@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+from django.utils import timezone
 from django_jalali.db import models as jmodels
 from ..departments.models import Department
 from ..users.models import Customer
@@ -42,3 +44,20 @@ class Project(models.Model):
 
     def get_name_replace(self):
         return f"{self.name.replace(' ', '-')}"
+
+    def get_progress(self):
+        start_date = self.start_date
+        end_date = self.end_date
+        now_date = timezone.now().date()
+        initial_date = end_date - start_date
+        final_date = end_date - now_date
+        if initial_date != 0 and final_date != 0:
+            progress = ((final_date.days - initial_date.days) / initial_date.days) * 100
+            if progress < 0:
+                progress = -progress
+
+        return {
+            'initial_date': initial_date.days,
+            'final_date': final_date.days,
+            'progress': int(progress)
+        }
