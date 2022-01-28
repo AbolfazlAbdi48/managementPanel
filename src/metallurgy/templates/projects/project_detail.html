@@ -31,7 +31,7 @@
                             <div class="d-flex align-items-center justify-content-between flex-wrap">
                                 <div class="mr-3">
                                     <!--begin::نام-->
-                                    <a href="#"
+                                    <a
                                        class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">
                                         {{ object.name }}<i class="flaticon2-correct text-success icon-md ml-2"></i>
                                     </a>
@@ -61,12 +61,22 @@
                                                 فقط کارفرما
                                             {% endif %}
                                         </span>
+                                    <a href="{% url 'departments:detail' object.department.pk object.department.get_name_replace %}" class="text-muted text-hover-primary font-weight-bold">
+                                <span class="svg-icon svg-icon-md svg-icon-gray-500 mr-1"><!--begin::Svg Icon | path:assets/media/svg/icons/Map/مارچker2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect x="0" y="0" width="24" height="24"></rect>
+        <path d="M9.82829464,16.6565893 C7.02541569,15.7427556 5,13.1079084 5,10 C5,6.13400675 8.13400675,3 12,3 C15.8659932,3 19,6.13400675 19,10 C19,13.1079084 16.9745843,15.7427556 14.1717054,16.6565893 L12,21 L9.82829464,16.6565893 Z M12,12 C13.1045695,12 14,11.1045695 14,10 C14,8.8954305 13.1045695,8 12,8 C10.8954305,8 10,8.8954305 10,10 C10,11.1045695 10.8954305,12 12,12 Z" fill="#000000"></path>
+    </g>
+</svg><!--end::Svg Icon--></span>                                {{ object.department.name }}
+                            </a>
                                     </div>
                                     <!--end::مخاطب-->
                                 </div>
                                 <div class="my-lg-0 my-1">
                                     <a href="{% url 'projects:update' object.pk object.get_name_replace %}"
                                        class="btn btn-sm btn-light-warning font-weight-bolder text-uppercase mr-3">ویرایش</a>
+                                    <a href="{% url 'projects:delete' object.pk object.get_name_replace %}"
+                                       class="btn btn-sm btn-light-danger font-weight-bolder text-uppercase mr-3">حذف</a>
                                 </div>
                             </div>
                             <!--end: Title-->

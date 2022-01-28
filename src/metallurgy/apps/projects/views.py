@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .forms import ProjectCreateUpdateForm
 from .models import Project
@@ -16,6 +16,10 @@ from ..core.mixins import (
 # Create your views here.
 
 class ProjectsListView(IsSuperUserOrStaffUserMixin, ListView):
+    """
+    The view return projects for superuser and staff user.
+    """
+
     def get_queryset(self):
         request = self.request
         if request.user.is_superuser:
@@ -28,6 +32,10 @@ class ProjectsListView(IsSuperUserOrStaffUserMixin, ListView):
 
 
 class ProjectDetailView(ProjectDetailMixin, DetailView):
+    """
+    The view return a project detail.
+    """
+
     def get_object(self, queryset=None):
         project_pk = self.kwargs.get('pk')
         project = get_object_or_404(Project, pk=project_pk)
@@ -60,3 +68,18 @@ class ProjectUpdateView(ProjectDepartmentStaffUserMixin, UpdateView):
 
     template_name = 'projects/project_create_update.html'
     form_class = ProjectCreateUpdateForm
+
+
+class ProjectDeleteView(ProjectDepartmentStaffUserMixin, DeleteView):
+    """
+    The for delete projects,
+    only superuser and staff can work with this view.
+    """
+
+    def get_object(self, queryset=None):
+        project_pk = self.kwargs.get('pk')
+        project = get_object_or_404(Project, pk=project_pk)
+        return project
+
+    success_url = reverse_lazy('projects:list')
+    template_name = 'projects/project_delete.html'
