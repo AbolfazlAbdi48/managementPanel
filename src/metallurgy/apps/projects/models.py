@@ -3,20 +3,28 @@ from django.urls import reverse
 from django.utils import timezone
 from django_jalali.db import models as jmodels
 from ..departments.models import Department
-from ..users.models import Customer
+from ..users.models import Customer, Employee
 from ..utils.jalali_date import jalali_converter
 
-
 # Create your models here.
+ACCESSIBILITY_CHOICES = (
+    ('private', 'خصوصی'),
+    ('public', 'عمومی'),
+    ('only_customer', 'فقط کارفرما')
+)
+
+DAYS_CHOICES = (
+    ('saturday', 'شنبه'),
+    ('sunday', 'یک شنبه'),
+    ('monday', 'دو شنبه'),
+    ('tuesday', 'سه شنبه'),
+    ('wednesday', 'چهار شنبه'),
+    ('thursday', 'پنجشنبه'),
+    ('friday', 'جمعه'),
+)
 
 
 class Project(models.Model):
-    ACCESSIBILITY_CHOICES = (
-        ('private', 'خصوصی'),
-        ('public', 'عمومی'),
-        ('only_customer', 'فقط کارفرما')
-    )
-
     name = models.CharField(max_length=150, verbose_name='نام پروژه')
     description = models.TextField(verbose_name='توضیحات پروژه')
     department = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name='دپارتمان مربوطه')
@@ -64,3 +72,33 @@ class Project(models.Model):
             'final_date': final_date.days,
             'progress': int(progress)
         }
+
+
+class WorkDay(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name='پروژه')
+    day = models.CharField(max_length=20, choices=DAYS_CHOICES, verbose_name='روز')
+    date = jmodels.jDateField(verbose_name='تاریخ')
+    start_time = models.TimeField(default=timezone.now, verbose_name='ساعت شروع کار')
+    end_time = models.TimeField(default=timezone.now, verbose_name='ساعت پایان کار')
+    accessibility = models.CharField(
+        max_length=13, choices=ACCESSIBILITY_CHOICES, null=True, blank=True, verbose_name='دسترسی'
+    )
+    employees = models.ManyToManyField(Employee, verbose_name='کارمندان')
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'روز کاری'
+        verbose_name_plural = 'روزهای کاری'
+
+    def __str__(self):
+        return f"{self.date.year}/{self.date.month}/{self.date.day} | {self.day}"
+
+    def get_name_replace(self):
+        return f"{self.date.year}-{self.date.month}-{self.date.day}/{self.day}"
+
+    def get_created_jalali(self):
+        return jalali_converter(self.created)
+
+    def get_updated_jalali(self):
+        return jalali_converter(self.updated)
