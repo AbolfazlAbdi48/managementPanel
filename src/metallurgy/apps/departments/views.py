@@ -7,8 +7,8 @@ from .forms import CreateUpdateDepartmentForm
 from ..core.mixins import IsSuperUserMixin, IsSuperUserOrDepartmentStaffUserMixin
 from ..projects.models import Project
 
-
 # Create your views here.
+from ..users.models import Customer
 
 
 class DepartmentsListView(ListView):
@@ -43,8 +43,9 @@ class DepartmentDetailView(IsSuperUserOrDepartmentStaffUserMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # get projects
         projects = Project.objects.filter(department=self.object).order_by('-id')
-        print(projects)
         context['projects'] = projects
         return context
 

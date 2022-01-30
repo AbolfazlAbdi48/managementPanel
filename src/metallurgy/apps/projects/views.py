@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .forms import ProjectCreateUpdateForm
-from .models import Project
+from .models import Project, WorkDay
 from ..core.mixins import (
     IsSuperUserOrStaffUserMixin,
 )
@@ -14,8 +14,9 @@ from .mixins import (
     ProjectDetailMixin
 )
 
-
 # Create your views here.
+from ..users.models import Customer
+
 
 class ProjectsListView(IsSuperUserOrStaffUserMixin, ListView):
     """
@@ -42,6 +43,18 @@ class ProjectDetailView(ProjectDetailMixin, DetailView):
         project_pk = self.kwargs.get('pk')
         project = get_object_or_404(Project, pk=project_pk)
         return project
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # work days
+        is_customer = Customer.objects.filter(account=self.request.user).exists()
+        workdays = WorkDay.objects.filter(project=self.object).order_by('-id')
+        if is_customer:
+            workdays = WorkDay.objects.filter(
+                project=self.object, accessibility='only_customer'
+            ).order_by('-id')
+        context['workdays'] = workdays
+        return context
 
     template_name = 'projects/project_detail.html'
 
