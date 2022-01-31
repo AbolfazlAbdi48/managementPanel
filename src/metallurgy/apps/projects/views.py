@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -11,7 +13,7 @@ from .mixins import (
     ProjectDepartmentStaffUserMixin,
     ProjectCreateMixin,
     ProjectFormMixin,
-    ProjectDetailMixin
+    ProjectDetailMixin, WorkDayDetailMixin
 )
 
 # Create your views here.
@@ -51,7 +53,7 @@ class ProjectDetailView(ProjectDetailMixin, DetailView):
         workdays = WorkDay.objects.filter(project=self.object).order_by('-id')
         if is_customer:
             workdays = WorkDay.objects.filter(
-                project=self.object, accessibility='only_customer'
+                project=self.object, accessibility__in=['only_customer', 'public']
             ).order_by('-id')
         context['workdays'] = workdays
         return context
@@ -98,3 +100,16 @@ class ProjectDeleteView(ProjectDepartmentStaffUserMixin, DeleteView):
 
     success_url = reverse_lazy('projects:list')
     template_name = 'projects/project_delete.html'
+
+
+class WorkDaysDetailView(WorkDayDetailMixin, DetailView):
+    """
+    The view for work days detail.
+    """
+
+    def get_object(self, queryset=None):
+        work_day_pk = self.kwargs.get('pk')
+        work_day = get_object_or_404(WorkDay, pk=work_day_pk)
+        return work_day
+
+    template_name = 'work_days/work_days_detail.html'

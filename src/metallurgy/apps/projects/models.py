@@ -92,10 +92,10 @@ class WorkDay(models.Model):
         verbose_name_plural = 'روزهای کاری'
 
     def __str__(self):
-        return f"{self.date.year}/{self.date.month}/{self.date.day} | {self.day}"
+        return f"{self.date.year}/{self.date.month}/{self.date.day} | {self.get_day_display()}"
 
     def get_name_replace(self):
-        return f"{self.date.year}-{self.date.month}-{self.date.day}/{self.day}"
+        return f"{self.date.year}-{self.date.month}-{self.date.day}-{self.day}"
 
     def get_created_jalali(self):
         return jalali_converter(self.created)

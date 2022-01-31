@@ -1,5 +1,7 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+
+from .models import WorkDay
 from ..departments.models import Department
 from ..projects.models import Project
 
@@ -57,13 +59,31 @@ class ProjectDetailMixin:
     """
 
     def dispatch(self, request, pk, name, *args, **kwargs):
-        project = get_object_or_404(Project, pk=pk)
-        if request.user.is_staff and request.user in project.department.staff_users.all() \
+        obj = get_object_or_404(Project, pk=pk)
+        if request.user.is_staff and request.user in obj.department.staff_users.all() \
                 or request.user.is_superuser:
             return super().dispatch(request, *args, **kwargs)
-        elif project.accessibility == 'public' and request.user:
+        elif obj.accessibility == 'public' and request.user:
             return super().dispatch(request, *args, **kwargs)
-        elif project.accessibility == 'only_customer' \
-                and project.customers.filter(account=request.user).exists():
+        elif obj.accessibility == 'only_customer' \
+                and obj.customers.filter(account=request.user).exists():
+            return super().dispatch(request, *args, **kwargs)
+        raise Http404
+
+
+class WorkDayDetailMixin:
+    """
+    it first check accessibility and then access.
+    """
+
+    def dispatch(self, request, pk, name, *args, **kwargs):
+        obj = get_object_or_404(WorkDay, pk=pk)
+        if request.user.is_staff and request.user in obj.project.department.staff_users.all() \
+                or request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        elif obj.accessibility == 'public' and request.user:
+            return super().dispatch(request, *args, **kwargs)
+        elif obj.accessibility == 'only_customer' \
+                and obj.project.customers.filter(account=request.user).exists():
             return super().dispatch(request, *args, **kwargs)
         raise Http404
