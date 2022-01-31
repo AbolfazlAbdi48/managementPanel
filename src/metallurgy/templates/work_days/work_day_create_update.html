@@ -1,0 +1,132 @@
+{% extends 'base/_Base.html' %}
+{% load static %}
+
+{% block title %}
+    برند | روزکاری
+{% endblock %}
+
+{% block content %}
+    {% with request.resolver_match.url_name as url_name %}
+        <div class="d-flex flex-column-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-custom example example-compact">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    {% if url_name == 'work-day-create' %}
+                                        ایجاد روز کاری
+                                    {% else %}
+                                        ویرایش روز کاری
+                                    {% endif %}
+                                </h3>
+                            </div>
+                            <!--begin::Form-->
+                            <form class="form" method="post">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">روز</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="fa fa-calendar-week"></i></span></div>
+                                                    {{ form.day }}
+                                                </div>
+                                                {% if form.day.errors %}
+                                                    <span class="form-text text-muted">{{ form.day.errors }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">دسترسی</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="fa fa-key"></i></span></div>
+                                                    {{ form.accessibility }}
+                                                </div>
+                                                {% if form.accessibility.errors %}
+                                                    <span class="form-text text-muted">{{ form.accessibility.errors }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-control-label">تاریخ</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="fa fa-calendar-alt"></i></span></div>
+                                                    {{ form.date }}
+                                                </div>
+                                                {% if form.end_time.errors %}
+                                                    <span class="form-text text-muted">{{ form.end_time.errors }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">ساعت شروع کار</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="fa fa-clock"></i></span></div>
+                                                    {{ form.start_time }}
+                                                </div>
+                                                {% if form.start_time.errors %}
+                                                    <span class="form-text text-muted">{{ form.start_time.errors }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">ساعت پایان</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="fa fa-clock"></i></span></div>
+                                                    {{ form.end_time }}
+                                                </div>
+                                                {% if form.end_time.errors %}
+                                                    <span class="form-text text-muted">{{ form.end_time.errors }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-control-label">کارمندان</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="fa fa-people-carry"></i></span></div>
+                                                    {{ form.employees }}
+                                                </div>
+                                                {% if form.employees.errors %}
+                                                    <span class="form-text text-muted">{{ form.employees.errors }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    {% if url_name == 'work-day-create' %}
+                                        <button type="submit" class="btn btn-light-info font-weight-bold mr-2">ایجاد
+                                        </button>
+                                    {% else %}
+                                        <button type="submit" class="btn btn-light-info font-weight-bold mr-2">ویرایش
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </form>
+                            <!--end::Form-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endwith %}
+{% endblock %}
+
+{% block new_js_code %}
+    <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+    <script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+    <script src="{% static 'js/pages/custom/projects/add-project.js' %}"></script>
+{% endblock %}

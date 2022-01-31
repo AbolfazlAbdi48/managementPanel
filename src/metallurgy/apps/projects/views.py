@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from .forms import ProjectCreateUpdateForm
+from .forms import ProjectCreateUpdateForm, WorkDayCreateUpdateForm
 from .models import Project, WorkDay
 from ..core.mixins import (
     IsSuperUserOrStaffUserMixin,
@@ -13,7 +13,9 @@ from .mixins import (
     ProjectDepartmentStaffUserMixin,
     ProjectCreateMixin,
     ProjectFormMixin,
-    ProjectDetailMixin, WorkDayDetailMixin
+    ProjectDetailMixin,
+    WorkDayDetailMixin,
+    WorkDayCreateUpdateMixin
 )
 
 # Create your views here.
@@ -102,7 +104,7 @@ class ProjectDeleteView(ProjectDepartmentStaffUserMixin, DeleteView):
     template_name = 'projects/project_delete.html'
 
 
-class WorkDaysDetailView(WorkDayDetailMixin, DetailView):
+class WorkDayDetailView(WorkDayDetailMixin, DetailView):
     """
     The view for work days detail.
     """
@@ -112,4 +114,28 @@ class WorkDaysDetailView(WorkDayDetailMixin, DetailView):
         work_day = get_object_or_404(WorkDay, pk=work_day_pk)
         return work_day
 
-    template_name = 'work_days/work_days_detail.html'
+    template_name = 'work_days/work_day_detail.html'
+
+
+class WorkDayCreateView(IsSuperUserOrStaffUserMixin, WorkDayCreateUpdateMixin, CreateView):
+    """
+    The view for create a work day.
+    """
+
+    model = WorkDay
+    template_name = 'work_days/work_day_create_update.html'
+    form_class = WorkDayCreateUpdateForm
+
+
+class WorkDayUpdateView(IsSuperUserOrStaffUserMixin, WorkDayCreateUpdateMixin, UpdateView):
+    """
+    The view for update work days.
+    """
+
+    def get_object(self, queryset=None):
+        work_day_pk = self.kwargs.get('pk')
+        work_day = get_object_or_404(WorkDay, pk=work_day_pk)
+        return work_day
+
+    template_name = 'work_days/work_day_create_update.html'
+    form_class = WorkDayCreateUpdateForm

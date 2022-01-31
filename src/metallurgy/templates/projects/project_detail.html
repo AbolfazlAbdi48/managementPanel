@@ -211,7 +211,7 @@
                                 <span class="text-muted mt-3 font-weight-bold font-size-sm">{{ workdays.count }} روزکاری</span>
                             </h3>
                             <div class="card-toolbar">
-                                <a href="{% url 'projects:create' %}?d_pk={{ object.pk }}"
+                                <a href="{% url 'projects:work-day-create' object.pk %}"
                                    class="btn btn-light-primary font-weight-bolder font-size-sm"><span
                                         class="svg-icon svg-icon-md svg-icon-white"><!--begin::Svg Icon | path:assets/media/svg/icons/ارتباطات/Add-user.svg--><svg
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -274,7 +274,7 @@
                                                 <span class="label label-lg label-light-primary label-inline">{{ workday.employees.all.count }}</span>
                                             </td>
                                             <td class="text-right pr-0">
-                                                <a href="{% url 'projects:update' project.pk project.get_name_replace %}"
+                                                <a href="{% url 'projects:work-day-update' workday.project.id workday.id workday.get_name_replace %}"
                                                    class="btn btn-icon btn-light btn-hover-primary btn-sm">
                                                     <span class="svg-icon svg-icon-md svg-icon-primary">									<svg
                                                             xmlns="http://www.w3.org/2000/svg"

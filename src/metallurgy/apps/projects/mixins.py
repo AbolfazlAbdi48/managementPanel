@@ -87,3 +87,19 @@ class WorkDayDetailMixin:
                 and obj.project.customers.filter(account=request.user).exists():
             return super().dispatch(request, *args, **kwargs)
         raise Http404
+
+
+class WorkDayCreateUpdateMixin:
+    """
+    The mixin set project field by project_pk for WorkDayCreateUpdateMixin.
+    """
+
+    def form_valid(self, form):
+        project_pk = self.kwargs.get('project_pk')
+        if project_pk:
+            project = get_object_or_404(Project, pk=project_pk)
+            self.obj = form.save(commit=False)
+            self.obj.project = project
+            self.obj.save()
+
+        return super().form_valid(form)

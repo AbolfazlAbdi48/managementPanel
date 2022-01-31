@@ -1,5 +1,5 @@
 from django import forms
-from .models import Project
+from .models import Project, WorkDay
 from jalali_date.widgets import AdminJalaliDateWidget
 
 
@@ -50,3 +50,33 @@ class ProjectCreateUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['department'].required = False
+
+
+class WorkDayCreateUpdateForm(forms.ModelForm):
+    class Meta:
+        model = WorkDay
+        fields = '__all__'
+        widgets = {
+            'day': forms.Select(
+                attrs={'class': 'form-control'}
+            ),
+            'date': AdminJalaliDateWidget(
+                attrs={'autocomplete': 'off',}
+            ),
+            'start_time': forms.TimeInput(
+                attrs={'class': 'form-control'}
+            ),
+            'end_time': forms.TimeInput(
+                attrs={'class': 'form-control'}
+            ),
+            'accessibility': forms.Select(
+                attrs={'class': 'form-control'}
+            ),
+            'employees': forms.SelectMultiple(
+                attrs={'class': 'form-control'}
+            )
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['project'].required = False

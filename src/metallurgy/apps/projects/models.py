@@ -102,3 +102,6 @@ class WorkDay(models.Model):
 
     def get_updated_jalali(self):
         return jalali_converter(self.updated)
+
+    def get_absolute_url(self):
+        return reverse('projects:detail', kwargs={'pk': self.project.pk, 'name': self.project.get_name_replace()})
