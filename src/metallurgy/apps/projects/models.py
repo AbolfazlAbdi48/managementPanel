@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -108,6 +110,7 @@ class WorkDay(models.Model):
 
 
 class Factor(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     short_description = models.CharField(max_length=100, verbose_name='توضیح کوتاه')
     date = jmodels.jDateField(verbose_name='تاریخ')
     project = models.ForeignKey(
