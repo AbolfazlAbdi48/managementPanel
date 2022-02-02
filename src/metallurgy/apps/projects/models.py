@@ -105,3 +105,49 @@ class WorkDay(models.Model):
 
     def get_absolute_url(self):
         return reverse('projects:detail', kwargs={'pk': self.project.pk, 'name': self.project.get_name_replace()})
+
+
+class Factor(models.Model):
+    short_description = models.CharField(max_length=100, verbose_name='توضیح کوتاه')
+    date = jmodels.jDateField(verbose_name='تاریخ')
+    project = models.ForeignKey(
+        Project, related_name='factors', on_delete=models.CASCADE, verbose_name='پروژه'
+    )
+    is_paid = models.BooleanField(default=False, verbose_name='پرداخت شده / نشده')
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'فاکتور'
+        verbose_name_plural = 'فاکتور ها'
+
+    def get_total_factor_price(self):
+        total = 0
+        for factor_detail in self.factor_details.all():
+            total += factor_detail.get_total_price()
+
+        return total
+
+    def __str__(self):
+        return f"{self.short_description} | جمع فاکتور: {self.get_total_factor_price()} تومان"
+
+
+class FactorDetail(models.Model):
+    factor = models.ForeignKey(
+        Factor, related_name='factor_details', on_delete=models.CASCADE, verbose_name='فاکتور'
+    )
+    name = models.CharField(max_length=75, verbose_name='نام')
+    quantity = models.BigIntegerField(default=1, verbose_name='مقدار')
+    amount = models.BigIntegerField(verbose_name='قیمت')
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'جزئیات فاکتور'
+        verbose_name_plural = 'جزئیات فاکتور ها'
+
+    def get_total_price(self):
+        return self.quantity * self.amount
+
+    def __str__(self):
+        return f"جمع: {self.get_total_price()} تومان"
