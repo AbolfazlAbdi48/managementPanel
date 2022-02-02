@@ -139,3 +139,22 @@ class WorkDayUpdateView(IsSuperUserOrStaffUserMixin, WorkDayCreateUpdateMixin, U
 
     template_name = 'work_days/work_day_create_update.html'
     form_class = WorkDayCreateUpdateForm
+
+
+class WorkDayDeleteView(DeleteView):
+    """
+    The view for delete work days.
+    """
+
+    def get_object(self, queryset=None):
+        work_day_pk = self.kwargs.get('pk')
+        work_day = get_object_or_404(WorkDay, pk=work_day_pk)
+        return work_day
+
+    def get_success_url(self):
+        return reverse_lazy('projects:detail', kwargs={
+            'pk': self.object.project.id,
+            'name': self.object.project.get_name_replace(),
+        })
+
+    template_name = 'work_days/work_day_delete.html'

@@ -58,7 +58,7 @@ class WorkDayCreateUpdateForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'day': forms.Select(
-                attrs={'class': 'form-control'}
+                attrs={'class': 'form-control selectpicker'}
             ),
             'date': AdminJalaliDateWidget(
                 attrs={'autocomplete': 'off',}
@@ -70,7 +70,7 @@ class WorkDayCreateUpdateForm(forms.ModelForm):
                 attrs={'class': 'form-control'}
             ),
             'accessibility': forms.Select(
-                attrs={'class': 'form-control'}
+                attrs={'class': 'form-control selectpicker'}
             ),
             'employees': forms.SelectMultiple(
                 attrs={'class': 'form-control'}

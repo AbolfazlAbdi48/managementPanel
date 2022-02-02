@@ -32,7 +32,9 @@
                                                 <div class="input-group">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i
                                                             class="fa fa-calendar-week"></i></span></div>
-                                                    {{ form.day }}
+                                                    <div class="dropdown bootstrap-select form-control">
+                                                        {{ form.day }}
+                                                    </div>
                                                 </div>
                                                 {% if form.day.errors %}
                                                     <span class="form-text text-muted">{{ form.day.errors }}</span>
@@ -45,7 +47,9 @@
                                                 <div class="input-group">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i
                                                             class="fa fa-key"></i></span></div>
-                                                    {{ form.accessibility }}
+                                                    <div class="dropdown bootstrap-select form-control">
+                                                        {{ form.accessibility }}
+                                                    </div>
                                                 </div>
                                                 {% if form.accessibility.errors %}
                                                     <span class="form-text text-muted">{{ form.accessibility.errors }}</span>
@@ -68,7 +72,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-control-label">ساعت شروع کار</label>
-                                                <div class="input-group">
+                                                <div class="input-group timepicker">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i
                                                             class="fa fa-clock"></i></span></div>
                                                     {{ form.start_time }}
@@ -116,7 +120,7 @@
                                     {% endif %}
                                 </div>
                             </form>
-                            <!--end::Form-->
+                            <!-- end::Form -->
                         </div>
                     </div>
                 </div>
@@ -129,4 +133,5 @@
     <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
     <script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
     <script src="{% static 'js/pages/custom/projects/add-project.js' %}"></script>
+    <script src="{% static 'js/pages/crud/forms/widgets/bootstrap-select.js' %}"></script>
 {% endblock %}

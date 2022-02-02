@@ -1,0 +1,50 @@
+{% extends 'base/_Base.html' %}
+{% load static %}
+
+{% block title %}
+    برند | حذف {{ object }}
+{% endblock %}
+
+{% block content %}
+    {% with request.resolver_match.url_name as url_name %}
+        <div class="d-flex flex-column-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-custom example example-compact">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    حذف روزکاری
+                                </h3>
+                            </div>
+                            <!--begin::Form-->
+                            <form class="form" method="post">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>از حذف "{{ object }}" اطمینان دارید؟</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-light-danger font-weight-bold mr-2">تائید و حذف
+                                        </button>
+                                    <a href="{% url 'projects:detail' object.project.id object.project.get_name_replace %}" class="btn btn-light-warning font-weight-bold mr-2">بازگشت
+                                        </a>
+                                </div>
+                            </form>
+                            <!--end::Form-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endwith %}
+{% endblock %}
+
+{% block new_js_code %}
+    <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+    <script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+    <script src="{% static 'js/pages/custom/projects/add-project.js' %}"></script>
+{% endblock %}

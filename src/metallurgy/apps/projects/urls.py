@@ -1,26 +1,18 @@
 from django.urls import path
-from .views import (
-    ProjectsListView,
-    ProjectDetailView,
-    ProjectCreateView,
-    ProjectUpdateView,
-    ProjectDeleteView,
-    WorkDayDetailView,
-    WorkDayCreateView,
-    WorkDayUpdateView,
-)
+from . import views
 
 app_name = 'projects'
 urlpatterns = [
     # projects
-    path('', ProjectsListView.as_view(), name='list'),
-    path('<pk>/<name>', ProjectDetailView.as_view(), name='detail'),
-    path('create', ProjectCreateView.as_view(), name='create'),
-    path('update/<pk>/<name>', ProjectUpdateView.as_view(), name='update'),
-    path('delete/<pk>/<name>', ProjectDeleteView.as_view(), name='delete'),
+    path('', views.ProjectsListView.as_view(), name='list'),
+    path('<pk>/<name>', views.ProjectDetailView.as_view(), name='detail'),
+    path('create', views.ProjectCreateView.as_view(), name='create'),
+    path('update/<pk>/<name>', views.ProjectUpdateView.as_view(), name='update'),
+    path('delete/<pk>/<name>', views.ProjectDeleteView.as_view(), name='delete'),
 
     # work days
-    path('work-day/create/<project_pk>', WorkDayCreateView.as_view(), name='work-day-create'),
-    path('work-day/<pk>/<name>', WorkDayDetailView.as_view(), name='work-day-detail'),
-    path('work-day/update/<project_pk>/<pk>/<name>', WorkDayUpdateView.as_view(), name='work-day-update'),
+    path('work-day/create/<project_pk>', views.WorkDayCreateView.as_view(), name='work-day-create'),
+    path('work-day/<pk>/<name>', views.WorkDayDetailView.as_view(), name='work-day-detail'),
+    path('work-day/update/<project_pk>/<pk>/<name>', views.WorkDayUpdateView.as_view(), name='work-day-update'),
+    path('work-day/delete/<pk>/<name>', views.WorkDayDeleteView.as_view(), name='work-day-delete'),
 ]
