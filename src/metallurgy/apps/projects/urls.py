@@ -15,4 +15,7 @@ urlpatterns = [
     path('work-day/<pk>/<name>', views.WorkDayDetailView.as_view(), name='work-day-detail'),
     path('work-day/update/<project_pk>/<pk>/<name>', views.WorkDayUpdateView.as_view(), name='work-day-update'),
     path('work-day/delete/<pk>/<name>', views.WorkDayDeleteView.as_view(), name='work-day-delete'),
+
+    # factors
+    path('factor/<project_pk>/<pk>', views.FactorDetailView.as_view(), name='factor-detail'),
 ]

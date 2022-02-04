@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .forms import ProjectCreateUpdateForm, WorkDayCreateUpdateForm
-from .models import Project, WorkDay
+from .models import Project, WorkDay, Factor
 from ..core.mixins import (
     IsSuperUserOrStaffUserMixin,
 )
@@ -158,3 +158,26 @@ class WorkDayDeleteView(DeleteView):
         })
 
     template_name = 'work_days/work_day_delete.html'
+
+
+class FactorDetailView(DetailView):
+    """
+    The view for factor detail.
+    """
+
+    def get_object(self, queryset=None):
+        factor_pk = self.kwargs.get('pk')
+        factor = get_object_or_404(Factor, pk=factor_pk)
+        return factor
+
+    def dispatch(self, request, *args, **kwargs):
+        factor_pk = self.kwargs.get('pk')
+        obj = get_object_or_404(Factor, pk=factor_pk)
+        if request.user.is_authenticated \
+                and request.user in [customer.account for customer in obj.project.customers.all()] \
+                or request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        print(request.user)
+        raise Http404
+
+    template_name = 'factors/factor_detail.html'

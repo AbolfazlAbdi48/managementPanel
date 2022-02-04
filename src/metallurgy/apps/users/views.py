@@ -120,7 +120,7 @@ def user_create_view(request):
         }
     )
 
-    password = random_character_generator(8)
+    password = random_character_generator(4)
 
     if request.method == "POST":
         if create_form.is_valid():
@@ -141,6 +141,7 @@ def user_create_view(request):
                 bio=bio
             )
             user.set_password(password)
+            user.save()
 
             match status:
                 case "staff":
