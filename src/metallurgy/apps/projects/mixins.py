@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 
-from .models import WorkDay
+from .models import WorkDay, Factor
 from ..departments.models import Department
 from ..projects.models import Project
 
@@ -103,3 +103,15 @@ class WorkDayCreateUpdateMixin:
             self.obj.save()
 
         return super().form_valid(form)
+
+
+class FactorDetailAccessMixin:
+    def dispatch(self, request, *args, **kwargs):
+        factor_pk = self.kwargs.get('pk')
+        obj = get_object_or_404(Factor, pk=factor_pk)
+        if request.user.is_authenticated \
+                and request.user in [customer.account for customer in obj.project.customers.all()] \
+                or request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        print(request.user)
+        raise Http404

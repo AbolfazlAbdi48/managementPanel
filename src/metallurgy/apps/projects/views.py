@@ -15,7 +15,7 @@ from .mixins import (
     ProjectFormMixin,
     ProjectDetailMixin,
     WorkDayDetailMixin,
-    WorkDayCreateUpdateMixin
+    WorkDayCreateUpdateMixin, FactorDetailAccessMixin
 )
 
 # Create your views here.
@@ -160,7 +160,7 @@ class WorkDayDeleteView(DeleteView):
     template_name = 'work_days/work_day_delete.html'
 
 
-class FactorDetailView(DetailView):
+class FactorDetailView(FactorDetailAccessMixin, DetailView):
     """
     The view for factor detail.
     """
@@ -170,14 +170,16 @@ class FactorDetailView(DetailView):
         factor = get_object_or_404(Factor, pk=factor_pk)
         return factor
 
-    def dispatch(self, request, *args, **kwargs):
-        factor_pk = self.kwargs.get('pk')
-        obj = get_object_or_404(Factor, pk=factor_pk)
-        if request.user.is_authenticated \
-                and request.user in [customer.account for customer in obj.project.customers.all()] \
-                or request.user.is_superuser:
-            return super().dispatch(request, *args, **kwargs)
-        print(request.user)
-        raise Http404
-
     template_name = 'factors/factor_detail.html'
+
+class PrintFactorDetailView(FactorDetailAccessMixin, DetailView):
+    """
+    The view for print factor detail.
+    """
+
+    def get_object(self, queryset=None):
+        factor_pk = self.kwargs.get('pk')
+        factor = get_object_or_404(Factor, pk=factor_pk)
+        return factor
+
+    template_name = 'factors/factor_print_detail.html'

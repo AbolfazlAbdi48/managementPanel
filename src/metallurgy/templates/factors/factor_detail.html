@@ -187,10 +187,10 @@
                                                         زمان شروع عملیات پرداخت: {{ payment.get_insert_date_jalali }}
                                                         - {{ payment.insert_date_time.time }}
                                                         <br>
-                                                    زمان پرداخت: {{ payment.get_payment_date_jalali }}
+                                                        زمان پرداخت: {{ payment.get_payment_date_jalali }}
                                                         - {{ payment.payment_date_time.time }}
                                                         <br>
-                                                    مبلغ (ریال): {{ payment.amount|intcomma:False }}
+                                                        مبلغ (ریال): {{ payment.amount|intcomma:False }}
                                                     </div>
                                                     <!--end::متن-->
                                                 </div>
@@ -218,12 +218,14 @@
                                 </a>
                                 <div>
                             {% endif %}
-                            <button type="button" class="btn btn-light-primary font-weight-bold"
-                                    onclick="window.print();">دانلود فاکتور
-                            </button>
-                            <button type="button" class="btn btn-light-primary font-weight-bold"
-                                    onclick="window.print();">چاپ فاکتور
-                            </button>
+                            <a href="{% url 'projects:factor-print-detail' factor.project.pk factor.pk %}"
+                               class="btn btn-light-primary font-weight-bold" target="_blank">
+                                دانلود فاکتور
+                            </a>
+                            <a href="{% url 'projects:factor-print-detail' factor.project.pk factor.pk %}"
+                               class="btn btn-light-primary font-weight-bold" target="_blank">
+                                چاپ فاکتور
+                            </a>
                             </div>
                             </div>
                         </div>

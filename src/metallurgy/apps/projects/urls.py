@@ -18,4 +18,5 @@ urlpatterns = [
 
     # factors
     path('factor/<project_pk>/<pk>', views.FactorDetailView.as_view(), name='factor-detail'),
+    path('factor/print/<project_pk>/<pk>', views.PrintFactorDetailView.as_view(), name='factor-print-detail'),
 ]
