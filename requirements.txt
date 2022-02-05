@@ -7,3 +7,4 @@ ghasedak==0.1.9
 requests==2.27.1
 django-jalali==5.0.0
 django-jalali-date==1.0.1
+zeep==4.1.0

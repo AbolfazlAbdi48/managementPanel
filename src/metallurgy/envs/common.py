@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'metallurgy.apps.core',
     'metallurgy.apps.departments',
     'metallurgy.apps.projects',
+    'metallurgy.apps.payments',
 ]
 
 MIDDLEWARE = [
