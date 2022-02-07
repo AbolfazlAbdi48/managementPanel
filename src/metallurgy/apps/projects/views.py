@@ -1,10 +1,14 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404
-from django.shortcuts import get_object_or_404
+from django.forms import formset_factory
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from .forms import ProjectCreateUpdateForm, WorkDayCreateUpdateForm
+from .forms import (
+    ProjectCreateUpdateForm,
+    WorkDayCreateUpdateForm,
+    FactorForm,
+    FactorDetailForm
+)
 from .models import Project, WorkDay, Factor
 from ..core.mixins import (
     IsSuperUserOrStaffUserMixin,
@@ -17,9 +21,10 @@ from .mixins import (
     WorkDayDetailMixin,
     WorkDayCreateUpdateMixin, FactorDetailAccessMixin
 )
+from ..users.models import Customer
+
 
 # Create your views here.
-from ..users.models import Customer
 
 
 class ProjectsListView(IsSuperUserOrStaffUserMixin, ListView):
@@ -172,6 +177,7 @@ class FactorDetailView(FactorDetailAccessMixin, DetailView):
 
     template_name = 'factors/factor_detail.html'
 
+
 class PrintFactorDetailView(FactorDetailAccessMixin, DetailView):
     """
     The view for print factor detail.
@@ -183,3 +189,31 @@ class PrintFactorDetailView(FactorDetailAccessMixin, DetailView):
         return factor
 
     template_name = 'factors/factor_print_detail.html'
+
+
+def factor_create_view(request, *args, **kwargs):
+    factor_form = FactorForm(request.POST or None)
+    factor_detail_formset = formset_factory(FactorDetailForm, extra=1)
+    formset = factor_detail_formset(request.POST or None)
+
+    # get project
+    project_pk = kwargs.get('project_pk')
+    project = get_object_or_404(Project, pk=project_pk)
+
+    if factor_form.is_valid() and formset.is_valid():
+        factor = factor_form.save(commit=False)
+        factor.project = project
+        factor.save()
+        for form in formset:
+            factor_detail = form.save(commit=False)
+            factor_detail.factor = factor
+            factor_detail.save()
+
+        return redirect(reverse_lazy('projects:factor-detail', kwargs={'project_pk': factor.pk, 'pk': factor.pk}))
+
+    context = {
+        'factor_form': factor_form,
+        'factor_detail_formset': formset,
+        'project': project,
+    }
+    return render(request, 'factors/factor_create_update.html', context)

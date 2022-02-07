@@ -1,0 +1,209 @@
+{% extends 'base/_Base.html' %}
+{% load static %}
+
+{% block title %}
+    برند | روزکاری
+{% endblock %}
+
+{% block content %}
+    {% with request.resolver_match.url_name as url_name %}
+        <div class="d-flex flex-column-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-custom example example-compact">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    {% if url_name == 'factor-create' %}
+                                        ایجاد فاکتور
+                                    {% else %}
+                                        ویرایش فاکتور
+                                    {% endif %}
+                                </h3>
+                            </div>
+                            <!--begin::Form-->
+                            <form class="form" method="post">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">عنوان فاکتور:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="fa fa-file-invoice"></i></span></div>
+                                                    {{ factor_form.short_description }}
+                                                </div>
+                                                {% if factor_form.short_description.errors %}
+                                                    <span class="form-text text-muted">{{ factor_form.short_description.errors }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">تاریخ:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="fa fa-file-invoice"></i></span></div>
+                                                    {{ factor_form.date }}
+                                                </div>
+                                                {% if factor_form.date.errors %}
+                                                    <span class="form-text text-muted">{{ factor_form.date.errors }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {{ factor_detail_formset.management_form }}
+                                        <div class="col-md-12 mt-5">
+                                            <h3>جزئیات فاکتور:</h3>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="row" id="factorDetailContainer">
+                                                {% for form in factor_detail_formset %}
+                                                    <div class="col-md-12 border-bottom mb-5">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">نام:</label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend"><span
+                                                                                class="input-group-text"><i
+                                                                                class="fa fa-file-invoice-dollar"></i></span>
+                                                                        </div>
+                                                                        {{ form.name }}
+                                                                    </div>
+                                                                    {% if form.name.errors %}
+                                                                        <span class="form-text text-danger">{{ form.name.errors }}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">مقدار:</label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend"><span
+                                                                                class="input-group-text"><i
+                                                                                class="fa fa-database"></i></span></div>
+                                                                        {{ form.quantity }}
+                                                                    </div>
+                                                                    {% if form.quantity.errors %}
+                                                                        <span class="form-text text-danger">{{ form.quantity.errors }}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">قیمت واحد:</label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend"><span
+                                                                                class="input-group-text"><i
+                                                                                class="fa fa-dollar-sign"></i></span>
+                                                                        </div>
+                                                                        {{ form.amount }}
+                                                                    </div>
+                                                                    {% if form.amount.errors %}
+                                                                        <span class="form-text text-danger">{{ form.amount.errors }}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-outline-info" id="addFormBtn">
+                                                <i class="fa fa-plus-circle"></i> اضافه کردن
+                                            </button>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    {% if url_name == 'factor-create' %}
+                                        <button type="submit" class="btn btn-light-success font-weight-bold mr-2">ایجاد
+                                        </button>
+                                    {% else %}
+                                        <button type="submit" class="btn btn-light-warning font-weight-bold mr-2">ویرایش
+                                        </button>
+                                    {% endif %}
+                                    <a href="{% url 'projects:detail' project.pk project.get_name_replace %}"
+                                       class="btn btn-light-warning font-weight-bold mr-2">بازگشت
+                                    </a>
+                                </div>
+                            </form>
+                            <!-- end::Form -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endwith %}
+{% endblock %}
+
+{% block new_js_code %}
+    <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+    <script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+    <script src="{% static 'js/pages/custom/projects/add-project.js' %}"></script>
+    <script src="{% static 'js/pages/crud/forms/widgets/bootstrap-select.js' %}"></script>
+
+    <script>
+        const add_form_btn = document.getElementById('addFormBtn')
+        const total_forms = document.getElementById('id_form-TOTAL_FORMS')
+        const factor_detail_container = document.getElementById('factorDetailContainer')
+        let form_length = 1
+
+        add_form_btn.addEventListener('click', () => {
+            form_length += 1
+            // increase total forms value
+            total_forms.value = form_length
+            // add new item
+            factor_detail_container.innerHTML += `
+            <div class="col-md-12 border-bottom mb-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-control-label">نام:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span
+                                        class="input-group-text"><i
+                                        class="fa fa-file-invoice-dollar"></i></span>
+                                </div>
+                                <input type="text" name="form-${form_length - 1}-name" id="id_form-${form_length - 1}-name" class="form-control" placeholder="نام">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-control-label">مقدار:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span
+                                        class="input-group-text"><i
+                                        class="fa fa-database"></i></span></div>
+                                <input type="number" name="form-${form_length - 1}-quantity" value="1" id="id_form-${form_length - 1}-quantity" class="form-control" placeholder="مقدار">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-control-label">قیمت واحد:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span
+                                        class="input-group-text"><i
+                                        class="fa fa-dollar-sign"></i></span>
+                                </div>
+                                <input type="number" name="form-${form_length - 1}-amount" id="id_form-${form_length - 1}-amount" class="form-control" placeholder="قیمت">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `
+        })
+
+        const jalali_date_picker = document.getElementById('id_date')
+        jalali_date_picker.classList += ' form-control'
+    </script>
+{% endblock %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Project, WorkDay
+from .models import Project, WorkDay, Factor, FactorDetail
 from jalali_date.widgets import AdminJalaliDateWidget
 
 
@@ -61,7 +61,7 @@ class WorkDayCreateUpdateForm(forms.ModelForm):
                 attrs={'class': 'form-control selectpicker'}
             ),
             'date': AdminJalaliDateWidget(
-                attrs={'autocomplete': 'off',}
+                attrs={'autocomplete': 'off', }
             ),
             'start_time': forms.TimeInput(
                 attrs={'class': 'form-control'}
@@ -80,3 +80,45 @@ class WorkDayCreateUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['project'].required = False
+
+
+class FactorForm(forms.ModelForm):
+    class Meta:
+        model = Factor
+        fields = ('short_description', 'date', 'project')
+        widgets = {
+            'short_description': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'عنوان یا توضیح کوتاه'}
+            ),
+            'project': forms.Select(
+                attrs={'class': 'form-control selectpicker'}
+            ),
+            'date': AdminJalaliDateWidget(
+                attrs={'autocomplete': 'off', }
+            )
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['project'].required = False
+
+
+class FactorDetailForm(forms.ModelForm):
+    class Meta:
+        model = FactorDetail
+        fields = ('factor', 'name', 'quantity', 'amount')
+        widgets = {
+            'name': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'نام'}
+            ),
+            'quantity': forms.NumberInput(
+                attrs={'class': 'form-control', 'placeholder': 'تعداد'}
+            ),
+            'amount': forms.NumberInput(
+                attrs={'class': 'form-control', 'placeholder': 'قیمت'}
+            )
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['factor'].required = False

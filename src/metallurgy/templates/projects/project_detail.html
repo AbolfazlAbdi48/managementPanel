@@ -499,8 +499,8 @@
                                                         <span class="text-muted mt-3 font-weight-bold font-size-sm">{{ object.factors.all.count }} فاکتور</span>
                                                     </h3>
                                                     <div class="card-toolbar">
-                                                        {% if request.is_staff %}
-                                                            <a href="{% url 'projects:work-day-create' object.pk %}"
+                                                        {% if request.user.is_staff %}
+                                                            <a href="{% url 'projects:factor-create' object.pk %}"
                                                                class="btn btn-light-primary font-weight-bolder font-size-sm"><span
                                                                     class="svg-icon svg-icon-md svg-icon-white"><!--begin::Svg Icon | path:assets/media/svg/icons/ارتباطات/Add-user.svg--><svg
                                                                     xmlns="http://www.w3.org/2000/svg"
