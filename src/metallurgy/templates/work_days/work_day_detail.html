@@ -16,7 +16,8 @@
                             <div class="card-title">
                                 <h3 class="card-label">
                                     یک روز کاری
-                                    <a href="{% url 'projects:detail' object.project.pk object.project.get_name_replace %}" class="d-block text-muted pt-2 font-size-sm">{{ object.project.name }}</a>
+                                    <a href="{% url 'projects:detail' object.project.pk object.project.get_name_replace %}"
+                                       class="d-block text-muted pt-2 font-size-sm">{{ object.project.name }}</a>
                                 </h3>
                             </div>
                         </div>
@@ -64,10 +65,14 @@
                         </div>
                         <!--end::Body-->
                         <!--begin::Footer-->
-                        <div class="card-footer">
-                            <a href="{% url 'projects:work-day-update' workday.project.id workday.id workday.get_name_replace %}" class="btn btn-light-warning font-weight-bold mr-2">ویرایش</a>
-                            <a href="{% url 'projects:work-day-delete' object.id object.get_name_replace %}" class="btn btn-light-danger font-weight-bold">حذف</a>
-                        </div>
+                        {% if request.user.is_staff %}
+                            <div class="card-footer">
+                                <a href="{% url 'projects:work-day-update' workday.project.id workday.id workday.get_name_replace %}"
+                                   class="btn btn-light-warning font-weight-bold mr-2">ویرایش</a>
+                                <a href="{% url 'projects:work-day-delete' object.id object.get_name_replace %}"
+                                   class="btn btn-light-danger font-weight-bold">حذف</a>
+                            </div>
+                        {% endif %}
                         <!--end::Footer-->
                     </div>
                 </div>

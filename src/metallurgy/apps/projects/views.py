@@ -146,7 +146,7 @@ class WorkDayUpdateView(IsSuperUserOrStaffUserMixin, WorkDayCreateUpdateMixin, U
     form_class = WorkDayCreateUpdateForm
 
 
-class WorkDayDeleteView(DeleteView):
+class WorkDayDeleteView(IsSuperUserOrStaffUserMixin, DeleteView):
     """
     The view for delete work days.
     """
