@@ -217,3 +217,18 @@ def factor_create_view(request, *args, **kwargs):
         'project': project,
     }
     return render(request, 'factors/factor_create_update.html', context)
+
+
+class FactorDeleteView(IsSuperUserOrStaffUserMixin, DeleteView):
+    def get_object(self, queryset=None):
+        factor_pk = self.kwargs.get('pk')
+        factor = get_object_or_404(Factor, pk=factor_pk, is_paid=False)
+        return factor
+
+    def get_success_url(self):
+        return reverse_lazy('projects:detail', kwargs={
+            'pk': self.object.project.id,
+            'name': self.object.project.get_name_replace(),
+        })
+
+    template_name = 'factors/factor_delete.html'

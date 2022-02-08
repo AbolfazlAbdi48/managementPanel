@@ -20,4 +20,5 @@ urlpatterns = [
     path('factor/create/<project_pk>', views.factor_create_view, name='factor-create'),
     path('factor/<project_pk>/<pk>', views.FactorDetailView.as_view(), name='factor-detail'),
     path('factor/print/<project_pk>/<pk>', views.PrintFactorDetailView.as_view(), name='factor-print-detail'),
+    path('factor/delete/<project_pk>/<pk>', views.FactorDeleteView.as_view(), name='factor-delete'),
 ]

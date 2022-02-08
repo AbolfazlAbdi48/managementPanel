@@ -26,7 +26,7 @@
                                 {% csrf_token %}
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="form-control-label">روز</label>
                                                 <div class="input-group">
@@ -41,7 +41,20 @@
                                                 {% endif %}
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="form-control-label">تاریخ</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="fa fa-calendar-alt"></i></span></div>
+                                                    {{ form.date }}
+                                                </div>
+                                                {% if form.end_time.errors %}
+                                                    <span class="form-text text-muted">{{ form.end_time.errors }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="form-control-label">دسترسی</label>
                                                 <div class="input-group">
@@ -53,19 +66,6 @@
                                                 </div>
                                                 {% if form.accessibility.errors %}
                                                     <span class="form-text text-muted">{{ form.accessibility.errors }}</span>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-control-label">تاریخ</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i
-                                                            class="fa fa-calendar-alt"></i></span></div>
-                                                    {{ form.date }}
-                                                </div>
-                                                {% if form.end_time.errors %}
-                                                    <span class="form-text text-muted">{{ form.end_time.errors }}</span>
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -134,4 +134,8 @@
     <script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
     <script src="{% static 'js/pages/custom/projects/add-project.js' %}"></script>
     <script src="{% static 'js/pages/crud/forms/widgets/bootstrap-select.js' %}"></script>
+    <script>
+        const jalali_date_picker = document.getElementById('id_date')
+        jalali_date_picker.classList += ' form-control'
+    </script>
 {% endblock %}

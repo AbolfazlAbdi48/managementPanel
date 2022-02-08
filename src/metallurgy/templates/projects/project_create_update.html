@@ -326,4 +326,10 @@
     <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
     <script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
     <script src="{% static 'js/pages/custom/projects/add-project.js' %}"></script>
+    <script>
+        const jalali_start_date_picker = document.getElementById('id_start_date')
+        jalali_start_date_picker.classList += ' form-control form-control-lg form-control-solid'
+        const jalali_end_date_picker = document.getElementById('id_end_date')
+        jalali_end_date_picker.classList += ' form-control form-control-lg form-control-solid'
+    </script>
 {% endblock %}
