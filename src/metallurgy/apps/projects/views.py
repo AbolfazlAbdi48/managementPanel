@@ -200,7 +200,7 @@ def factor_create_view(request, *args, **kwargs):
     project_pk = kwargs.get('project_pk')
     project = get_object_or_404(Project, pk=project_pk)
 
-    if factor_form.is_valid() and formset.is_valid():
+    if factor_form.is_valid() and all([form.is_valid() for form in formset]):
         factor = factor_form.save(commit=False)
         factor.project = project
         factor.save()
