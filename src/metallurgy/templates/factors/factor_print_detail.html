@@ -385,10 +385,7 @@
                                     <td><span id="ProductNumUnits">پرداخت با خطا مواجه شد<span></span></span></td>
                                 {% endif %}
                                 <td><span id="ProductNumUnits">{{ payment.user.get_full_name }}<span></span></span></td>
-                                <td><span id="ProductUnit">{{ payment.get_insert_date_jalali }}
-                                                        - {{ payment.insert_date_time.time }}<span></span></span></td>
-                                <td><span id="ProductUnitPrice">{{ payment.get_payment_date_jalali }}
-                                                        - {{ payment.payment_date_time.time }}</span></td>
+                                <td><span id="ProductUnitPrice">{{ payment.get_payment_date_jalali }}</span></td>
                                 <td><span
                                         id="ProductDiscount">{{ payment.amount|intcomma:False }}</span>
                                 </td>

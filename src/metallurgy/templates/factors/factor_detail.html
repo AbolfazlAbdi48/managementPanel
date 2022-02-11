@@ -161,9 +161,9 @@
                                                     <!--begin::برچسب-->
                                                     <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">
                                                         {% if payment.status %}
-                                                            {{ payment.payment_date_time.time }}
+                                                            موفق
                                                         {% else %}
-                                                            {{ payment.insert_date_time.time }}
+                                                            ناموفق
                                                         {% endif %}
                                                     </div>
                                                     <!--end::برچسب-->
@@ -184,11 +184,7 @@
                                                         <br>
                                                         توسط: {{ payment.user.get_full_name }}
                                                         <br>
-                                                        زمان شروع عملیات پرداخت: {{ payment.get_insert_date_jalali }}
-                                                        - {{ payment.insert_date_time.time }}
-                                                        <br>
                                                         زمان پرداخت: {{ payment.get_payment_date_jalali }}
-                                                        - {{ payment.payment_date_time.time }}
                                                         <br>
                                                         مبلغ (ریال): {{ payment.amount|intcomma:False }}
                                                     </div>

@@ -1,5 +1,6 @@
 {% extends 'base/_Base.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}
     برند | پروژه ها
@@ -22,7 +23,7 @@
                                 <div class="d-flex align-items-center">
                                     <!--begin::Pic-->
                                     <div class="flex-shrink-0 mr-4 symbol symbol-65 symbol-circle">
-                                        <img src="{% static 'media/project-logos/3.png' %}" alt="image">
+                                        <img src="{% static 'media/bg/bg-10.jpg' %}" alt="image">
                                     </div>
                                     <!--end::Pic-->
                                     <!--begin::اطلاعات-->
@@ -32,10 +33,12 @@
                                            class="card-title text-hover-primary font-weight-bolder font-size-h5 text-dark mb-1">
                                             {{ project.name }}
                                         </a>
-                                        <a href="{% url 'departments:detail' project.department.pk project.department.get_name_replace %}"
-                                           class="text-muted font-weight-bold">
-                                            {{ project.department.name }}
-                                        </a>
+                                        {% if request.user.is_staff %}
+                                            <a href="{% url 'departments:detail' project.department.pk project.department.get_name_replace %}"
+                                               class="text-muted font-weight-bold">
+                                                {{ project.department.name }}
+                                            </a>
+                                        {% endif %}
                                         <!--end::Title-->
                                     </div>
                                     <!--end::اطلاعات-->
@@ -162,16 +165,16 @@
                                 <div class="d-flex flex-wrap">
                                     <!--begin: Item-->
                                     <div class="mr-12 d-flex flex-column mb-7">
-                                        <span class="font-weight-bolder mb-4">بودجه</span>
+                                        <span class="font-weight-bolder mb-4">جمع فاکتور ها</span>
                                         <span class="font-weight-bolder font-size-h5 pt-1"><span
-                                                class="font-weight-bold text-dark-50">دلار</span>249,500</span>
+                                                class="font-weight-bold text-dark-50">تومان </span>{{ project.get_total_expenses|intcomma:False }}</span>
                                     </div>
                                     <!--end::Item-->
                                     <!--begin::Item-->
                                     <div class="mr-12 d-flex flex-column mb-7">
-                                        <span class="font-weight-bolder mb-4">هزینه ها</span>
+                                        <span class="font-weight-bolder mb-4">جمع فاکتور های پرداخت شده</span>
                                         <span class="font-weight-bolder font-size-h5 pt-1"><span
-                                                class="font-weight-bold text-dark-50">دلار</span>439,500</span>
+                                                class="font-weight-bold text-dark-50">تومان </span>{{ project.get_total_expenses_paid|intcomma:False }}</span>
                                     </div>
                                     <!--end::Item-->
                                     <!--begin::Item-->
@@ -182,7 +185,7 @@
                                                 <div class="symbol symbol-30 symbol-circle" data-toggle="tooltip"
                                                      title=""
                                                      data-original-title="{{ customer.account.get_full_name }}">
-                                                    <img alt="Pic" src="{% static 'media/users/300_25.jpg' %}">
+                                                    <img alt="Pic" src="{% static 'media/users/default.jpg' %}">
                                                 </div>
                                             {% endfor %}
 
@@ -196,7 +199,8 @@
                             <!--begin::Footer-->
                             <div class="card-footer d-flex align-items-center">
                                 <div class="d-flex">
-                                    <div class="d-flex align-items-center mr-7">
+                                    {% if request.user.is_staff %}
+                                        <div class="d-flex align-items-center mr-7">
                         <span class="svg-icon svg-icon-gray-500"><!--begin::Svg Icon | path:assets/media/svg/icons/متن/Bullet-list.svg--><svg
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -209,10 +213,11 @@
     </g>
 </svg><!--end::Svg Icon--></span> <a href="{% url 'projects:update' project.pk project.get_name_replace %}"
                                      class="font-weight-bolder text-primary ml-2">ویرایش</a>
-                                    </div>
+                                        </div>
+                                    {% endif %}
                                 </div>
                                 <a href="{% url 'projects:detail' project.pk project.get_name_replace %}"
-                                        class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">
+                                   class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">
                                     جزییات
                                 </a>
                             </div>

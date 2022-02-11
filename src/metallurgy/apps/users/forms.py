@@ -97,8 +97,7 @@ class AccountUpdateForm(forms.ModelForm):
         widget=forms.EmailInput(
             attrs={'class': 'form-control form-control-lg form-control-solid',
                    'placeholder': 'ایمیل'}
-        ),
-        disabled='disable'
+        )
     )
 
     first_name = forms.CharField(

@@ -94,7 +94,7 @@
                                     <!--begin::Pic-->
                                     <div class="flex-shrink-0 mr-4">
                                         <div class="symbol symbol-circle symbol-lg-75">
-                                            <img src="{% static 'media/project-logos/1.png' %}" alt="image">
+                                            <img src="{% static 'media/bg/bg-4.jpg' %}" alt="image">
                                         </div>
                                     </div>
                                     <!--end::Pic-->
@@ -110,23 +110,6 @@
                                 <p class="mb-7">
                                     {{ department.description }}
                                 </p>
-                                <!--end::Desc-->
-                                <!--begin::اطلاعات-->
-                                <div class="mb-7">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="text-dark-75 font-weight-bolder mr-2">تعداد پروژه ها:</span>
-                                        <a href="#" class="text-muted text-hover-primary">دلار249,500</a>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-cente my-1">
-                                        <span class="text-dark-75 font-weight-bolder mr-2">تعداد کارمندان:</span>
-                                        <a href="#" class="text-muted text-hover-primary">دلار76,810</a>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="text-dark-75 font-weight-bolder mr-2">تعداد کارفرمایان:</span>
-                                        <span class="text-muted font-weight-bold">21.05.2016</span>
-                                    </div>
-                                </div>
-                                <!--end::اطلاعات-->
                                 <a href="{% url 'departments:detail' department.pk department.get_name_replace %}"
                                    class="btn btn-block btn-sm {% cycle 'btn-light-success' 'btn-light-info' 'btn-light-danger' %} font-weight-bolder text-uppercase py-4">مشاهده</a>
                             </div>

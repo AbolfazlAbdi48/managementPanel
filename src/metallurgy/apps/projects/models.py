@@ -75,6 +75,20 @@ class Project(models.Model):
             'progress': int(progress)
         }
 
+    def get_total_expenses(self):
+        total = 0
+        for factor in self.factors.all():
+            total += factor.get_total_factor_price()
+
+        return total
+
+    def get_total_expenses_paid(self):
+        total = 0
+        for factor in self.factors.filter(is_paid=True).all():
+            total += factor.get_total_factor_price()
+
+        return total
+
 
 class WorkDay(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name='پروژه')

@@ -17,7 +17,7 @@
                         <!--begin: Pic-->
                         <div class="flex-shrink-0 mr-7 mt-lg-0 mt-3">
                             <div class="symbol symbol-50 symbol-lg-120">
-                                <img alt="Pic" src="{% static 'media/project-logos/3.png' %}">
+                                <img alt="Pic" src="{% static 'media/bg/bg-10.jpg' %}">
                             </div>
 
                             <div class="symbol symbol-50 symbol-lg-120 symbol-primary d-none">
@@ -62,8 +62,9 @@
                                                 فقط کارفرما
                                             {% endif %}
                                         </span>
-                                        <a href="{% url 'departments:detail' object.department.pk object.department.get_name_replace %}"
-                                           class="text-muted text-hover-primary font-weight-bold">
+                                        {% if request.user.is_staff %}
+                                            <a href="{% url 'departments:detail' object.department.pk object.department.get_name_replace %}"
+                                               class="text-muted text-hover-primary font-weight-bold">
                                 <span class="svg-icon svg-icon-md svg-icon-gray-500 mr-1"><!--begin::Svg Icon | path:assets/media/svg/icons/Map/مارچker2.svg--><svg
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -73,7 +74,8 @@
               fill="#000000"></path>
     </g>
 </svg><!--end::Svg Icon--></span> {{ object.department.name }}
-                                        </a>
+                                            </a>
+                                        {% endif %}
                                     </div>
                                     <!--end::مخاطب-->
                                 </div>
@@ -160,9 +162,9 @@
                     <i class="flaticon-confetti icon-2x text-muted font-weight-bold"></i>
                 </span>
                             <div class="d-flex flex-column text-dark-75">
-                                <span class="font-weight-bolder font-size-sm">هزینه ها</span>
+                                <span class="font-weight-bolder font-size-sm">جمع فاکتور ها</span>
                                 <span class="font-weight-bolder font-size-h5"><span
-                                        class="text-dark-50 font-weight-bold">دلار</span>164,700</span>
+                                        class="text-dark-50 font-weight-bold">تومان  </span>{{ object.get_total_expenses|intcomma:False }}</span>
                             </div>
                         </div>
                         <!--end: Item-->
@@ -173,9 +175,10 @@
                     <i class="flaticon-pie-chart icon-2x text-muted font-weight-bold"></i>
                 </span>
                             <div class="d-flex flex-column text-dark-75">
-                                <span class="font-weight-bolder font-size-sm">خالص</span>
+                                <span class="font-weight-bolder font-size-sm">جمع فاکتور های پرداخت شده</span>
                                 <span class="font-weight-bolder font-size-h5"><span
-                                        class="text-dark-50 font-weight-bold">دلار</span>782,300</span>
+                                        class="text-dark-50 font-weight-bold">تومان  </span>{{ object.get_total_expenses_paid|intcomma:False }}</span>
+
                             </div>
                         </div>
                         <!--end: Item-->
@@ -189,7 +192,7 @@
                                 {% for customer in object.customers.all %}
                                     <div class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title=""
                                          data-original-title="{{ customer.account.get_full_name }}">
-                                        <img alt="Pic" src="{% static 'media/users/300_25.jpg' %}">
+                                        <img alt="Pic" src="{% static 'media/users/default.jpg' %}">
                                     </div>
                                 {% endfor %}
                             </div>

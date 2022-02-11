@@ -1,4 +1,6 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import formset_factory
+from django.http import Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -21,23 +23,32 @@ from .mixins import (
     WorkDayDetailMixin,
     WorkDayCreateUpdateMixin, FactorDetailAccessMixin
 )
-from ..users.models import Customer
+from ..users.models import Customer, Employee
 
 
 # Create your views here.
 
 
-class ProjectsListView(IsSuperUserOrStaffUserMixin, ListView):
+class ProjectsListView(LoginRequiredMixin, ListView):
     """
     The view return projects for superuser and staff user.
     """
 
     def get_queryset(self):
         request = self.request
+        is_customer = Customer.objects.filter(account=request.user).exists()
+        is_employee = Employee.objects.filter(account=request.user).exists()
+
         if request.user.is_superuser:
             return Project.objects.all().order_by('-id')
         elif request.user.is_staff:
             return Project.objects.filter(department__staff_users__in=[request.user]).order_by('-id')
+        elif is_customer:
+            return Project.objects.filter(customers__in=[request.user.customer]).order_by('-id')
+        elif is_employee:
+            return Project.objects.filter(workday__employees__in=[request.user.employee]).order_by('-id').distinct()
+        else:
+            raise Http404
 
     template_name = 'projects/project_list.html'
     paginate_by = 12
