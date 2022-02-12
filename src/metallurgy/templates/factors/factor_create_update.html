@@ -107,15 +107,17 @@
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
-                                                                    <label class="checkbox">حذف:</label>
-                                                                    {{ form.DELETE }}
-                                                                    {% if form.DELETE.errors %}
-                                                                        <span class="form-text text-danger">{{ form.DELETE.errors }}</span>
-                                                                    {% endif %}
+                                                            {% if form.DELETE %}
+                                                                <div class="col-md-3">
+                                                                    <div class="form-group">
+                                                                        <label class="checkbox">حذف:</label>
+                                                                        {{ form.DELETE }}
+                                                                        {% if form.DELETE.errors %}
+                                                                            <span class="form-text text-danger">{{ form.DELETE.errors }}</span>
+                                                                        {% endif %}
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            {% endif %}
                                                         </div>
                                                     </div>
                                                 {% endfor %}

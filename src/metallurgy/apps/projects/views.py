@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import formset_factory, modelformset_factory
 from django.http import Http404
@@ -16,12 +17,12 @@ from ..core.mixins import (
     IsSuperUserOrStaffUserMixin,
 )
 from .mixins import (
-    ProjectDepartmentStaffUserMixin,
+    ProjectAccessMixin,
     ProjectCreateMixin,
     ProjectFormMixin,
     ProjectDetailMixin,
     WorkDayDetailMixin,
-    WorkDayCreateUpdateMixin, FactorDetailAccessMixin
+    WorkDayCreateUpdateMixin, FactorAccessMixin
 )
 from ..users.models import Customer, Employee
 
@@ -90,7 +91,7 @@ class ProjectCreateView(ProjectCreateMixin, ProjectFormMixin, CreateView):
     form_class = ProjectCreateUpdateForm
 
 
-class ProjectUpdateView(ProjectDepartmentStaffUserMixin, UpdateView):
+class ProjectUpdateView(ProjectAccessMixin, UpdateView):
     """
     The view can update a project,
     superuser and staff can update a project.
@@ -105,7 +106,7 @@ class ProjectUpdateView(ProjectDepartmentStaffUserMixin, UpdateView):
     form_class = ProjectCreateUpdateForm
 
 
-class ProjectDeleteView(ProjectDepartmentStaffUserMixin, DeleteView):
+class ProjectDeleteView(ProjectAccessMixin, DeleteView):
     """
     The for delete projects,
     only superuser and staff can work with this view.
@@ -176,7 +177,7 @@ class WorkDayDeleteView(IsSuperUserOrStaffUserMixin, DeleteView):
     template_name = 'work_days/work_day_delete.html'
 
 
-class FactorDetailView(FactorDetailAccessMixin, DetailView):
+class FactorDetailView(FactorAccessMixin, DetailView):
     """
     The view for factor detail.
     """
@@ -189,7 +190,7 @@ class FactorDetailView(FactorDetailAccessMixin, DetailView):
     template_name = 'factors/factor_detail.html'
 
 
-class PrintFactorDetailView(FactorDetailAccessMixin, DetailView):
+class PrintFactorDetailView(FactorAccessMixin, DetailView):
     """
     The view for print factor detail.
     """
@@ -202,9 +203,10 @@ class PrintFactorDetailView(FactorDetailAccessMixin, DetailView):
     template_name = 'factors/factor_print_detail.html'
 
 
+@user_passes_test(lambda u: u.is_staff)
 def factor_create_view(request, *args, **kwargs):
     factor_form = FactorForm(request.POST or None)
-    factor_detail_formset = formset_factory(FactorDetailForm, extra=1)
+    factor_detail_formset = formset_factory(FactorDetailForm, extra=0)
     formset = factor_detail_formset(request.POST or None)
 
     # get project
@@ -226,11 +228,12 @@ def factor_create_view(request, *args, **kwargs):
         'factor_form': factor_form,
         'factor_detail_formset': formset,
         'project': project,
-        'form_length': 1
+        'form_length': 0
     }
     return render(request, 'factors/factor_create_update.html', context)
 
 
+@user_passes_test(lambda u: u.is_staff)
 def factor_update_view(request, *args, **kwargs):
     # get factor
     factor = get_object_or_404(Factor, pk=kwargs.get('pk'))

@@ -6,7 +6,7 @@ from ..departments.models import Department
 from ..projects.models import Project
 
 
-class ProjectDepartmentStaffUserMixin:
+class ProjectAccessMixin:
     """
     Check user is superuser or project department staffuser.
     """
@@ -105,7 +105,11 @@ class WorkDayCreateUpdateMixin:
         return super().form_valid(form)
 
 
-class FactorDetailAccessMixin:
+class FactorAccessMixin:
+    """
+    The mixin for factor detail.
+    """
+
     def dispatch(self, request, *args, **kwargs):
         factor_pk = self.kwargs.get('pk')
         obj = get_object_or_404(Factor, pk=factor_pk)
@@ -113,5 +117,4 @@ class FactorDetailAccessMixin:
                 and request.user in [customer.account for customer in obj.project.customers.all()] \
                 or request.user.is_superuser:
             return super().dispatch(request, *args, **kwargs)
-        print(request.user)
         raise Http404

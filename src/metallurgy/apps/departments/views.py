@@ -7,8 +7,8 @@ from .forms import CreateUpdateDepartmentForm
 from ..core.mixins import IsSuperUserMixin, IsSuperUserOrDepartmentStaffUserMixin
 from ..projects.models import Project
 
+
 # Create your views here.
-from ..users.models import Customer
 
 
 class DepartmentsListView(ListView):
