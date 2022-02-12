@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.forms import formset_factory
+from django.forms import formset_factory, modelformset_factory
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
@@ -11,7 +11,7 @@ from .forms import (
     FactorForm,
     FactorDetailForm
 )
-from .models import Project, WorkDay, Factor
+from .models import Project, WorkDay, Factor, FactorDetail
 from ..core.mixins import (
     IsSuperUserOrStaffUserMixin,
 )
@@ -211,7 +211,7 @@ def factor_create_view(request, *args, **kwargs):
     project_pk = kwargs.get('project_pk')
     project = get_object_or_404(Project, pk=project_pk)
 
-    if factor_form.is_valid() and all([form.is_valid() for form in formset]):
+    if all([factor_form.is_valid(), formset.is_valid()]):
         factor = factor_form.save(commit=False)
         factor.project = project
         factor.save()
@@ -226,6 +226,52 @@ def factor_create_view(request, *args, **kwargs):
         'factor_form': factor_form,
         'factor_detail_formset': formset,
         'project': project,
+        'form_length': 1
+    }
+    return render(request, 'factors/factor_create_update.html', context)
+
+
+def factor_update_view(request, *args, **kwargs):
+    # get factor
+    factor = get_object_or_404(Factor, pk=kwargs.get('pk'))
+    if factor.is_paid:
+        raise Http404
+    # get project
+    project = get_object_or_404(Project, pk=kwargs.get('project_pk'))
+
+    factor_form = FactorForm(request.POST or None, instance=factor)
+    factor_detail_formset = modelformset_factory(
+        FactorDetail, form=FactorDetailForm, extra=0, can_delete=True
+    )
+    qs = factor.factor_details.all()
+    formset = factor_detail_formset(request.POST or None, queryset=qs)
+
+    if all([factor_form.is_valid(), formset.is_valid()]):
+        factor = factor_form.save(commit=False)
+        factor.project = project
+        factor.save()
+
+        for form in formset:
+            factor_detail = form.save(commit=False)
+            factor_detail.factor = factor
+            if form.cleaned_data['DELETE']:
+                factor_detail.delete()
+            else:
+                factor_detail.save()
+
+        return redirect(
+            reverse_lazy(
+                'projects:factor-detail',
+                kwargs={'project_pk': factor.pk, 'pk': factor.pk}
+            )
+        )
+
+    context = {
+        'factor_form': factor_form,
+        'factor_detail_formset': formset,
+        'project': project,
+        'factor': factor,
+        'form_length': qs.count()
     }
     return render(request, 'factors/factor_create_update.html', context)
 

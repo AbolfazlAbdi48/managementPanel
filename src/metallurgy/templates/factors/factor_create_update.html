@@ -62,7 +62,7 @@
                                                 {% for form in factor_detail_formset %}
                                                     <div class="col-md-12 border-bottom mb-5">
                                                         <div class="row">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-3">
                                                                 <div class="form-group">
                                                                     <label class="form-control-label">نام:</label>
                                                                     <div class="input-group">
@@ -71,13 +71,14 @@
                                                                                 class="fa fa-file-invoice-dollar"></i></span>
                                                                         </div>
                                                                         {{ form.name }}
+                                                                        {{ form.id }}
                                                                     </div>
                                                                     {% if form.name.errors %}
                                                                         <span class="form-text text-danger">{{ form.name.errors }}</span>
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-3">
                                                                 <div class="form-group">
                                                                     <label class="form-control-label">مقدار:</label>
                                                                     <div class="input-group">
@@ -91,7 +92,7 @@
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-3">
                                                                 <div class="form-group">
                                                                     <label class="form-control-label">قیمت واحد:</label>
                                                                     <div class="input-group">
@@ -103,6 +104,15 @@
                                                                     </div>
                                                                     {% if form.amount.errors %}
                                                                         <span class="form-text text-danger">{{ form.amount.errors }}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label class="checkbox">حذف:</label>
+                                                                    {{ form.DELETE }}
+                                                                    {% if form.DELETE.errors %}
+                                                                        <span class="form-text text-danger">{{ form.DELETE.errors }}</span>
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
@@ -130,7 +140,7 @@
                                         </button>
                                     {% endif %}
                                     <a href="{% url 'projects:detail' project.pk project.get_name_replace %}"
-                                       class="btn btn-light-warning font-weight-bold mr-2">بازگشت
+                                       class="btn btn-light-primary font-weight-bold mr-2">بازگشت
                                     </a>
                                 </div>
                             </form>
@@ -153,7 +163,7 @@
         const add_form_btn = document.getElementById('addFormBtn')
         const total_forms = document.getElementById('id_form-TOTAL_FORMS')
         const factor_detail_container = document.getElementById('factorDetailContainer')
-        let form_length = 1
+        let form_length = parseInt("{{ form_length }}")
 
         add_form_btn.addEventListener('click', () => {
             form_length += 1

@@ -213,29 +213,48 @@
                                     پرداخت
                                 </a>
                                 <div>
+
                             {% endif %}
+
                             <a href="{% url 'projects:factor-print-detail' factor.project.pk factor.pk %}"
                                class="btn btn-light-primary font-weight-bold" target="_blank">
                                 دانلود فاکتور
                             </a>
+
                             <a href="{% url 'projects:factor-print-detail' factor.project.pk factor.pk %}"
                                class="btn btn-light-primary font-weight-bold" target="_blank">
                                 چاپ فاکتور
                             </a>
+
+
                             {% if request.user.is_staff %}
+
                                 {% if factor.is_paid %}
                                     <span
-                                       class="btn btn-outline-secondary font-weight-bold" data-toggle="tooltip" title=""
-                                       data-placement="top"
-                                       data-original-title="فاکتور پرداخت شده و غیر قابل حذف میباشد">
+                                            class="btn btn-outline-secondary font-weight-bold" data-toggle="tooltip"
+                                            title=""
+                                            data-placement="top"
+                                            data-original-title="فاکتور پرداخت شده و غیر قابل حذف میباشد">
                                         حذف
+                                    </span>
+                                    <span
+                                            class="btn btn-outline-secondary font-weight-bold" data-toggle="tooltip"
+                                            title=""
+                                            data-placement="top"
+                                            data-original-title="فاکتور پرداخت شده و غیر قابل ویرایش میباشد">
+                                        ویرایش
                                     </span>
                                 {% else %}
                                     <a href="{% url 'projects:factor-delete' factor.project.pk factor.pk %}"
                                        class="btn btn-light-danger font-weight-bold">
                                         حذف
                                     </a>
+                                    <a href="{% url 'projects:factor-update' factor.project.pk factor.pk %}"
+                                       class="btn btn-light-warning font-weight-bold">
+                                        ویرایش
+                                    </a>
                                 {% endif %}
+
                             {% endif %}
                             </div>
                             </div>
