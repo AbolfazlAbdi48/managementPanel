@@ -15,11 +15,11 @@ from .views import (
 
 app_name = 'users'
 urlpatterns = [
-    path('', account_view, name='home'),
-    path('register/', RegisterView.as_view(), name='register'),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path('update/', AccountUpdateView.as_view(), name='update'),
-    path('password-change/', AccountPasswordChangeView.as_view(), name='password-change'),
+    path('account/', account_view, name='home'),
+    path('account/register/', RegisterView.as_view(), name='register'),
+    path('account/logout/', LogoutView.as_view(), name='logout'),
+    path('account/update/', AccountUpdateView.as_view(), name='update'),
+    path('account/password-change/', AccountPasswordChangeView.as_view(), name='password-change'),
 
     path('users/', UserListView.as_view(), name='users-list'),
     path('users/deactivated/', DeactivateUserListView.as_view(), name='users-deactivated-list'),

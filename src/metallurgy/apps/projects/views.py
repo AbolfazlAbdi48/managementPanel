@@ -222,7 +222,12 @@ def factor_create_view(request, *args, **kwargs):
             factor_detail.factor = factor
             factor_detail.save()
 
-        return redirect(reverse_lazy('projects:factor-detail', kwargs={'project_pk': factor.pk, 'pk': factor.pk}))
+        return redirect(
+            reverse_lazy(
+                'projects:factor-detail',
+                kwargs={'project_pk': project.pk, 'pk': factor.pk}
+            )
+        )
 
     context = {
         'factor_form': factor_form,
@@ -265,7 +270,7 @@ def factor_update_view(request, *args, **kwargs):
         return redirect(
             reverse_lazy(
                 'projects:factor-detail',
-                kwargs={'project_pk': factor.pk, 'pk': factor.pk}
+                kwargs={'project_pk': project.pk, 'pk': factor.pk}
             )
         )
 
