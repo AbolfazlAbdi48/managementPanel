@@ -180,7 +180,7 @@
     <script src="{% static 'js/pages/features/miscellaneous/sweetalert2.js' %}"></script>
     <script>
         const deactivate_user = (id) => {
-            fetch(`/account/users/is-active/?pk=${id}`)
+            fetch(`/users/is-active/?pk=${id}`)
                 .then(res => res.json())
                 .then(data => data)
                 .then(err => console.log(err))
