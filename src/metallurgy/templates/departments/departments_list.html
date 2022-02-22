@@ -117,6 +117,16 @@
                         </div>
                         <!--end:: Card-->
                     </div>
+                {% empty %}
+                    <div class="col-12">
+                        <div class="alert  alert-custom alert-secondary" role="alert">
+                            <div class="alert-icon"><i class="flaticon-questions-circular-button"></i></div>
+                            <div class="alert-text">
+                                دپارتمانی یافت نشد.
+                                <a href="{% url 'departments:create' %}">ایجاد دپارتمان جدید</a>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
 
 

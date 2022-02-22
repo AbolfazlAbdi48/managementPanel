@@ -178,7 +178,16 @@
                         </div>
                         <!--end::Card-->
                     </div>
-                    <!--end::Col-->
+                {% empty %}
+                    <div class="col-12">
+                        <div class="alert  alert-custom alert-secondary" role="alert">
+                            <div class="alert-icon"><i class="flaticon-questions-circular-button"></i></div>
+                            <div class="alert-text">
+                                کاربری یافت نشد.
+                                <a href="{% url 'users:users-create' %}">ایجاد کاربر جدید</a>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
 
             </div>

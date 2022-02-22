@@ -225,6 +225,16 @@
                         </div>
                         <!--end::Card-->
                     </div>
+                {% empty %}
+                    <div class="col-12">
+                        <div class="alert  alert-custom alert-secondary" role="alert">
+                            <div class="alert-icon"><i class="flaticon-questions-circular-button"></i></div>
+                            <div class="alert-text">
+                                پروژه ای یافت نشد.
+                                <a href="{% url 'projects:create' %}">ایجاد پروژه جدید</a>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
 
 
