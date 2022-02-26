@@ -32,7 +32,7 @@ from ..users.models import Customer, Employee
 
 class ProjectsListView(LoginRequiredMixin, ListView):
     """
-    The view return projects for superuser and staff user.
+    The view return projects for users.
     """
 
     def get_queryset(self):
@@ -43,11 +43,18 @@ class ProjectsListView(LoginRequiredMixin, ListView):
         if request.user.is_superuser:
             return Project.objects.all().order_by('-id')
         elif request.user.is_staff:
-            return Project.objects.filter(department__staff_users__in=[request.user]).order_by('-id')
+            return Project.objects.filter(
+                department__staff_users__in=[request.user]
+            ).order_by('-id')
         elif is_customer:
-            return Project.objects.filter(customers__in=[request.user.customer]).order_by('-id')
+            return Project.objects.filter(
+                customers__in=[request.user.customer],
+                accessibility='only_customer'
+            ).order_by('-id')
         elif is_employee:
-            return Project.objects.filter(workday__employees__in=[request.user.employee]).order_by('-id').distinct()
+            return Project.objects.filter(
+                workday__employees__in=[request.user.employee]
+            ).order_by('-id').distinct()
         else:
             raise Http404
 
