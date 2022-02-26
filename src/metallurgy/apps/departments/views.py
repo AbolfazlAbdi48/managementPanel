@@ -13,8 +13,8 @@ from ..projects.models import Project
 
 class DepartmentsListView(ListView):
     """
-    The view return all departments,
-    only superuser can see this view.
+    The view returns all departments,
+    only superusers can see this view.
     """
 
     def get_queryset(self):
@@ -32,8 +32,8 @@ class DepartmentsListView(ListView):
 
 class DepartmentDetailView(IsSuperUserOrDepartmentStaffUserMixin, DetailView):
     """
-    The view return department by pk,
-    superuser and staff can see this view.
+    The view returns department by pk,
+    superusers and staffs can see this view.
     """
 
     def get_object(self, queryset=None):
@@ -56,7 +56,7 @@ class DepartmentDetailView(IsSuperUserOrDepartmentStaffUserMixin, DetailView):
 class DepartmentCreateView(IsSuperUserMixin, CreateView):
     """
     The view create a new department,
-    superuser only can work with this view.
+    superusers only can work with this view.
     """
 
     model = Department
